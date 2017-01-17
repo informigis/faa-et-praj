@@ -3,12 +3,14 @@
 <head>
     <title>Få et praj</title>
     <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://js.arcgis.com/4.2/esri/css/main.css">
+    <link rel="stylesheet" href="styles/faa_et_praj.css" />
 </head>
 <body>
     <h1>Høringer og afgørelser</h1>
     <section>
         <h2>kort</h2>
-        <div id="map"></div>
+        <div id="viewDiv"></div>
     </section>
     <section>
         <h2>kategorier</h2>
@@ -33,5 +35,7 @@
         <label for="phone">Mobilnummer</label>
         <input type="submit" value="Tilmeld" />
     </section>
+    <script src="https://js.arcgis.com/4.2/"></script>
+    <script src="scripts/faa_et_praj.js"></script>
 </body>
 </html>
