@@ -5,6 +5,14 @@
     width: 650px;
 }
 
+#search {
+    display: flex;
+    position: relative;
+    z-index: 2;
+    bottom: 20px;
+    left: 20px;
+}
+
 form, input, label {
     display: inline-block;
     vertical-align: middle;
