@@ -13,6 +13,10 @@
     left: 20px;
 }
 
+#deletePraj {
+    display: none;
+}
+
 form, input, label {
     display: inline-block;
     vertical-align: middle;

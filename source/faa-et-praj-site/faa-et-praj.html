@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Få et praj</title>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <link href="styles/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://js.arcgis.com/3.19/esri/themes/calcite/dijit/calcite.css">
     <link rel="stylesheet" href="https://js.arcgis.com/3.19/esri/themes/calcite/esri/esri.css">
@@ -20,7 +20,7 @@
     <section>
         <h2>kategorier</h2>
         <div>
-            <input type="checkbox" name="Byggeri og bolig" value="byggeri_og_bolig" id="byggeri_og_bolig" checked="checked"/>
+            <input type="checkbox" name="Byggeri og bolig" value="byggeri_og_bolig" id="byggeri_og_bolig" checked="checked" />
             <label for="byggeri_og_bolig">Byggeri og bolig</label>
             <input type="checkbox" name="Erhverv/byggeri" value="erhverv_byggeri" id="erhverv_byggeri" />
             <label for="erhverv_byggeri">Erhverv/byggeri</label>
@@ -32,6 +32,7 @@
             <label for="miljoe_natur_og_klima">Miljø, natur og klima</label>
         </div>
     </section>
+    <input type="submit" value="Slet praj" id="deletePraj" />
     <section>
         <h2>Dine kontaktoplysninger</h2>
         <input type="text" value="" id="name" />
@@ -40,8 +41,9 @@
         <label for="email">Email</label>
         <input type="tel" value="" id="phone" />
         <label for="phone">Mobilnummer</label>
-        <input type="submit" value="Tilmeld" />
+        <input type="submit" value="Tilmeld" id="savePraj" />
     </section>
+    <h2 id="userMessage"></h2>
     <script src="scripts/querystring_extract.js"></script>
     <script src="https://js.arcgis.com/3.19/"></script>
     <script src="scripts/faa_et_praj.js"></script>

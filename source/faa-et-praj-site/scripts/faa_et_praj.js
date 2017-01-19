@@ -32,4 +32,19 @@
         map: map
     }, "search");
     search.startup();
+
+    function updateElementValue(elementId, value) {
+        if (value) {
+            document.getElementById(elementId).value = value;
+        }
+    }
+
+    updateElementValue("name", QueryString.navn);
+    updateElementValue("email", QueryString.email);
+    updateElementValue("phone", QueryString.mobileNumber);
+
+    if (QueryString.email && QueryString.mobileNumber) {
+        document.getElementById("deletePraj").style.display = "block";
+        updateElementValue("savePraj", "Gem ændringer");
+    }
 });
