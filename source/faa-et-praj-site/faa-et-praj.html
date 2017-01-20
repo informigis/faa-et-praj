@@ -32,7 +32,7 @@
             <label for="miljoe_natur_og_klima">Miljø, natur og klima</label>
         </div>
     </section>
-    <input type="submit" value="Slet praj" id="deletePraj" />
+    <input type="button" value="Slet praj" id="deletePraj" />
     <section>
         <h2>Dine kontaktoplysninger</h2>
         <input type="text" value="" id="name" />
@@ -41,9 +41,10 @@
         <label for="email">Email</label>
         <input type="tel" value="" id="phone" />
         <label for="phone">Mobilnummer</label>
-        <input type="submit" value="Tilmeld" id="savePraj" />
+        <input type="button" value="Tilmeld" id="createPraj" />
     </section>
-    <h2 id="userMessage"></h2>
+<h2 id="userMessage"></h2>
+    <a href="http://faa-et-praj.kolding.dk" id="prajLink">http://faa-et-praj.kolding.dk</a>
     <script src="scripts/querystring_extract.js"></script>
     <script src="https://js.arcgis.com/3.19/"></script>
     <script src="scripts/faa_et_praj.js"></script>
