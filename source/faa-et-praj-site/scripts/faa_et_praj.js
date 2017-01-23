@@ -4,9 +4,10 @@
   "esri/dijit/Search",
   "esri/layers/WMSLayer",
   "esri/layers/FeatureLayer",
+  "esri/dijit/FeatureTable",
   "esri/layers/WMTSLayer",
   "dojo/domReady!"
-], function (esriConfig, Map, Search, WMSLayer, FeatureLayer, WMTSLayer) {
+], function (esriConfig, Map, Search, WMSLayer, FeatureLayer, FeatureTable, WMTSLayer) {
     esriConfig.defaults.io.corsEnabledServers.push({
         host: "http://kortforsyningen.kms.dk",
         withCredentials: true
@@ -26,6 +27,10 @@
     var wmtsLayer = new WMTSLayer('http://kortforsyningen.kms.dk/?servicename=topo_skaermkort_daempet&client=arcGIS&request=GetCapabilities&service=WMTS&acceptversions=1.0.0&login=Kommune621&password=Qwertyu10', {
     });*/
     var featureLayer = new FeatureLayer("http://gis.kolding.dk/arcgis/rest/services/PublicPlanByg/Lokalplaner/MapServer/0");
+    var sag = new FeatureLayer("http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/0");
+    var borger_abonnement = new FeatureLayer("http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/1");
+    var tema = new FeatureTable("http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/2");
+
     //map.addLayer(wmsLayer);
     //map.addLayer(featureLayer);
     var search = new Search({
@@ -77,7 +82,9 @@
         // Save to service
         // Error handling
         // Create URL
-        var refUrl = window.location.protocol + "//" + window.location.host + location.pathname + "?navn=" + name + "&email=" + email + "&mobileNumber=" + phone;
+        //var extentAndTema = 
+        var searchPartOfUrl = "?navn=" + name + "&email=" + email + "&mobileNumber=" + phone;
+        var refUrl = window.location.protocol + "//" + window.location.host + location.pathname + searchPartOfUrl;
         document.getElementById("prajLink").text = refUrl;
         document.getElementById("prajLink").href = refUrl;
         // Update message
