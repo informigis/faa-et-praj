@@ -56,21 +56,28 @@
 
     function createPraj() {
         console.log("Hello createPraj!");
-
-
+        // get data 
+        // Save to service
+        // Error handling
+        // Create URL
+        // Update message
     }
 
     function updatePraj() {
 
     }
 
-    function addEventListener(element, eventHandlerFunction, eventType) {
+    function addListener(element, eventHandlerFunction, eventType) {
         var deletePrajElement = document.getElementById(element);
-        deletePrajElement.addEventListener(eventType, eventHandlerFunction, false);
+        if (deletePrajElement.addEventListener) {
+            deletePrajElement.addEventListener(eventType, eventHandlerFunction, false);
+        } else if (deletePrajElement.attachEvent) {
+            deletePrajElement.attachEvent("on" + eventType, eventHandlerFunction);
+        }
     }
 
-    addEventListener(deletePraj.name, deletePraj, "click");
-    addEventListener(createPraj.name, createPraj, "click");
+    addListener("deletePraj", deletePraj, "click");
+    addListener("createPraj", createPraj, "click");
     //addEventListener(updatePraj.name, updatePraj, "click");
 
     /*var deletePrajElement = document.getElementById("deletePraj");
