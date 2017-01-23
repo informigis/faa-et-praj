@@ -51,16 +51,37 @@
     function deletePraj(e) {
         console.log("Hello deletepraj!");
         // get ids
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var phone = document.getElementById("phone").value;
+
+
         // delete in database
     }
 
     function createPraj() {
         console.log("Hello createPraj!");
         // get data 
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var phone = document.getElementById("phone").value;
+        // get [emner]
+        var byggeri_og_bolig = document.getElementById("byggeri_og_bolig").checked;
+        var erhverv_byggeri = document.getElementById("erhverv_byggeri").checked;
+        var planer_og_strategier = document.getElementById("planer_og_strategier").checked;
+        var veje_fortove_og_groenne_omraader = document.getElementById("veje_fortove_og_groenne_omraader").checked;
+        var miljoe_natur_og_klima = document.getElementById("miljoe_natur_og_klima").checked;
+            // get map extent
+        var extent = map.extent;
+
         // Save to service
         // Error handling
         // Create URL
+        var refUrl = window.location.protocol + "//" + window.location.host + location.pathname + "?navn=" + name + "&email=" + email + "&mobileNumber=" + phone;
+        document.getElementById("prajLink").text = refUrl;
+        document.getElementById("prajLink").href = refUrl;
         // Update message
+        document.getElementById("userMessage").textContent = "Praj oprettet.";
     }
 
     function updatePraj() {
