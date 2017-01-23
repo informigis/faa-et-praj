@@ -1,11 +1,24 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Moder site for få-et-praj-sitet</title>
 	<meta charset="utf-8" />
 </head>
 <body>
 <h1>Kolding Kommune</h1>
-<iframe style="width: 700px; height: 1000px" src="faa-et-praj.html"></iframe>
+<iframe style="width: 700px; height: 1000px" src="faa-et-praj.html" id="faa-et-praj"></iframe>
+<script>
+    (function() {
+        var iframe = document.getElementById("faa-et-praj");
+        var parentContainer = "";
+        if (window.location.search) {
+
+            iframe.src = iframe.src + window.location.search + "&parentContainer=" + parentContainer;
+        } else {
+            iframe.src = iframe.src + "?parentContainer=" + window.location.pathname;
+        }
+
+    })();
+</script>
 </body>
 </html>

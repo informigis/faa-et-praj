@@ -103,7 +103,11 @@
         var tema = "&byggeri_og_bolig=" + byggeri_og_bolig + "&erhverv_byggeri=" + erhverv_byggeri + "&planer_og_strategier=" + planer_og_strategier + "&veje_fortove_og_groenne_omraader=" + veje_fortove_og_groenne_omraader + "&miljoe_natur_og_klima=" + miljoe_natur_og_klima;
         var spatrefUrl = "&xmin=" + xmin + "&ymin=" + ymin + "&xmax=" + xmax + "&ymax=" + ymax + "&spatialRefWkid=" + spatialRefWkid;
         var searchPartOfUrl = "?navn=" + name + "&email=" + email + "&mobileNumber=" + phone + tema;
-        var refUrl = window.location.protocol + "//" + window.location.host + location.pathname + searchPartOfUrl + spatrefUrl;
+        var locationPathname = location.pathname;
+        if (QueryString.parentContainer) {
+            locationPathname = QueryString.parentContainer;
+        }
+        var refUrl = window.location.protocol + "//" + window.location.host + locationPathname + searchPartOfUrl + spatrefUrl;
         document.getElementById("prajLink").text = refUrl;
         document.getElementById("prajLink").href = refUrl;
         // Update message
