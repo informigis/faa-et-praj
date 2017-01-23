@@ -50,7 +50,14 @@
 
     if (QueryString.email && QueryString.mobileNumber) {
         document.getElementById("deletePraj").style.display = "block";
-        updateElementValue("createPraj", "Gem ændringer");
+        document.getElementById("updatePraj").style.display = "block";
+        document.getElementById("createPraj").style.display = "none";
+        //updateElementValue("createPraj", "Gem ændringer");
+        document.getElementById("byggeri_og_bolig").checked = (QueryString.byggeri_og_bolig === "true");
+        document.getElementById("erhverv_byggeri").checked = (QueryString.erhverv_byggeri === "true");
+        document.getElementById("planer_og_strategier").checked = (QueryString.planer_og_strategier === "true");
+        document.getElementById("veje_fortove_og_groenne_omraader").checked = (QueryString.veje_fortove_og_groenne_omraader === "true");
+        document.getElementById("miljoe_natur_og_klima").checked = (QueryString.miljoe_natur_og_klima === "true");
     }
 
     function deletePraj(e) {
@@ -60,6 +67,7 @@
         var email = document.getElementById("email").value;
         var phone = document.getElementById("phone").value;
 
+        document.getElementById("userMessage").textContent = "Praj slettet.";
 
         // delete in database
     }
@@ -82,8 +90,8 @@
         // Save to service
         // Error handling
         // Create URL
-        //var extentAndTema = 
-        var searchPartOfUrl = "?navn=" + name + "&email=" + email + "&mobileNumber=" + phone;
+        var tema = "&byggeri_og_bolig=" + byggeri_og_bolig + "&erhverv_byggeri=" + erhverv_byggeri + "&planer_og_strategier=" + planer_og_strategier + "&veje_fortove_og_groenne_omraader=" + veje_fortove_og_groenne_omraader + "&miljoe_natur_og_klima=" + miljoe_natur_og_klima;
+        var searchPartOfUrl = "?navn=" + name + "&email=" + email + "&mobileNumber=" + phone + tema;
         var refUrl = window.location.protocol + "//" + window.location.host + location.pathname + searchPartOfUrl;
         document.getElementById("prajLink").text = refUrl;
         document.getElementById("prajLink").href = refUrl;
@@ -92,7 +100,8 @@
     }
 
     function updatePraj() {
-
+        createPraj();
+        document.getElementById("userMessage").textContent = "Praj opdateret.";
     }
 
     function addListener(element, eventHandlerFunction, eventType) {
@@ -106,7 +115,7 @@
 
     addListener("deletePraj", deletePraj, "click");
     addListener("createPraj", createPraj, "click");
-    //addEventListener(updatePraj.name, updatePraj, "click");
+    addListener("updatePraj", updatePraj, "click");
 
     /*var deletePrajElement = document.getElementById("deletePraj");
     deletePrajElement.addEventListener("click", deletePraj, false); */
