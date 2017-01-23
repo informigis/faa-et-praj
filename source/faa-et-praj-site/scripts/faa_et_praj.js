@@ -6,8 +6,10 @@
   "esri/layers/FeatureLayer",
   "esri/dijit/FeatureTable",
   "esri/layers/WMTSLayer",
+  "esri/SpatialReference",
+  "esri/geometry/Extent",
   "dojo/domReady!"
-], function (esriConfig, Map, Search, WMSLayer, FeatureLayer, FeatureTable, WMTSLayer) {
+], function (esriConfig, Map, Search, WMSLayer, FeatureLayer, FeatureTable, WMTSLayer, SpatialReference, Extent) {
     esriConfig.defaults.io.corsEnabledServers.push({
         host: "http://kortforsyningen.kms.dk",
         withCredentials: true
@@ -58,6 +60,8 @@
         document.getElementById("planer_og_strategier").checked = (QueryString.planer_og_strategier === "true");
         document.getElementById("veje_fortove_og_groenne_omraader").checked = (QueryString.veje_fortove_og_groenne_omraader === "true");
         document.getElementById("miljoe_natur_og_klima").checked = (QueryString.miljoe_natur_og_klima === "true");
+        var extent1 = Extent(parseFloat(QueryString.xmin), parseFloat(QueryString.ymin), parseFloat(QueryString.xmax), parseFloat(QueryString.ymax), new SpatialReference(parseInt(QueryString.spatialRefWkid)));
+        map.setExtent(extent1);
     }
 
     function deletePraj(e) {
@@ -86,13 +90,19 @@
         var miljoe_natur_og_klima = document.getElementById("miljoe_natur_og_klima").checked;
             // get map extent
         var extent = map.extent;
+        var xmin = extent.xmin;
+        var ymin = extent.ymin;
+        var xmax = extent.xmax;
+        var ymax = extent.ymax;
+        var spatialRefWkid = extent.spatialReference.wkid;
 
         // Save to service
         // Error handling
         // Create URL
         var tema = "&byggeri_og_bolig=" + byggeri_og_bolig + "&erhverv_byggeri=" + erhverv_byggeri + "&planer_og_strategier=" + planer_og_strategier + "&veje_fortove_og_groenne_omraader=" + veje_fortove_og_groenne_omraader + "&miljoe_natur_og_klima=" + miljoe_natur_og_klima;
+        var spatrefUrl = "&xmin=" + xmin + "&ymin=" + ymin + "&xmax=" + xmax + "&ymax=" + ymax + "&spatialRefWkid=" + spatialRefWkid;
         var searchPartOfUrl = "?navn=" + name + "&email=" + email + "&mobileNumber=" + phone + tema;
-        var refUrl = window.location.protocol + "//" + window.location.host + location.pathname + searchPartOfUrl;
+        var refUrl = window.location.protocol + "//" + window.location.host + location.pathname + searchPartOfUrl + spatrefUrl;
         document.getElementById("prajLink").text = refUrl;
         document.getElementById("prajLink").href = refUrl;
         // Update message
