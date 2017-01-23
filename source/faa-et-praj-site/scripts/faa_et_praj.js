@@ -10,6 +10,7 @@
   "esri/geometry/Extent",
   "dojo/domReady!"
 ], function (esriConfig, Map, Search, WMSLayer, FeatureLayer, FeatureTable, WMTSLayer, SpatialReference, Extent) {
+    // TODO: general url-encoding of parameters.
     esriConfig.defaults.io.corsEnabledServers.push({
         host: "http://kortforsyningen.kms.dk",
         withCredentials: true
@@ -112,6 +113,7 @@
     function updatePraj() {
         createPraj();
         document.getElementById("userMessage").textContent = "Praj opdateret.";
+        // update in database.
     }
 
     function addListener(element, eventHandlerFunction, eventType) {
@@ -126,7 +128,4 @@
     addListener("deletePraj", deletePraj, "click");
     addListener("createPraj", createPraj, "click");
     addListener("updatePraj", updatePraj, "click");
-
-    /*var deletePrajElement = document.getElementById("deletePraj");
-    deletePrajElement.addEventListener("click", deletePraj, false); */
 });
