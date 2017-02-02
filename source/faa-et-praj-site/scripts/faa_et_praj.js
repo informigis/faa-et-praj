@@ -32,7 +32,8 @@
     var featureLayer = new FeatureLayer("http://gis.kolding.dk/arcgis/rest/services/PublicPlanByg/Lokalplaner/MapServer/0");
     var sag = new FeatureLayer("http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/0");
     var borger_abonnement = new FeatureLayer("http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/1");
-    var tema = new FeatureTable("http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/2");
+    var temaBorgerAbonnement = new FeatureTable("http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/2");
+    var temaSag = new FeatureTable("http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/2");
 
     //map.addLayer(wmsLayer);
     //map.addLayer(featureLayer);
@@ -89,7 +90,7 @@
         var planer_og_strategier = document.getElementById("planer_og_strategier").checked;
         var veje_fortove_og_groenne_omraader = document.getElementById("veje_fortove_og_groenne_omraader").checked;
         var miljoe_natur_og_klima = document.getElementById("miljoe_natur_og_klima").checked;
-            // get map extent
+        // get map extent
         var extent = map.extent;
         var xmin = extent.xmin;
         var ymin = extent.ymin;
@@ -120,6 +121,15 @@
         // update in database.
     }
 
+    function getPlans() {
+        console.info("Getting plans...");
+        // get main categories
+        // get search geometry
+        // search (set time, show "Titel")
+        // include main catogories from user i search
+        // populate documentList with results
+    }
+
     function addListener(element, eventHandlerFunction, eventType) {
         var deletePrajElement = document.getElementById(element);
         if (deletePrajElement.addEventListener) {
@@ -132,4 +142,5 @@
     addListener("deletePraj", deletePraj, "click");
     addListener("createPraj", createPraj, "click");
     addListener("updatePraj", updatePraj, "click");
+    addListener("getPlans", getPlans, "click");
 });
