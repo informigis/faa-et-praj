@@ -8,8 +8,14 @@
   "esri/layers/WMTSLayer",
   "esri/SpatialReference",
   "esri/geometry/Extent",
+  "esri/tasks/query",
+  "esri/tasks/QueryTask",
+  "dojo/dom",
+  "dojo/on",
+  "dojo/dom-construct",
+  "dojo/_base/array",
   "dojo/domReady!"
-], function (esriConfig, Map, Search, WMSLayer, FeatureLayer, FeatureTable, WMTSLayer, SpatialReference, Extent) {
+], function (esriConfig, Map, Search, WMSLayer, FeatureLayer, FeatureTable, WMTSLayer, SpatialReference, Extent, Query, QueryTask, dom, on, domConstruct, arrayUtil) {
     // TODO: general url-encoding of parameters.
     esriConfig.defaults.io.corsEnabledServers.push({
         host: "http://kortforsyningen.kms.dk",
@@ -41,6 +47,24 @@
         map: map
     }, "search");
     search.startup();
+
+
+
+    function getSelectedMainCategoriesAsSubtypes() {
+        var byggeri_og_bolig = document.getElementById("byggeri_og_bolig").checked;
+        var erhverv_byggeri = document.getElementById("erhverv_byggeri").checked;
+        var planer_og_strategier = document.getElementById("planer_og_strategier").checked;
+        var veje_fortove_og_groenne_omraader = document.getElementById("veje_fortove_og_groenne_omraader").checked;
+        var miljoe_natur_og_klima = document.getElementById("miljoe_natur_og_klima").checked;
+
+        var mainCategories = [
+            { subtypeId: 1, selected: byggeri_og_bolig },
+            { subtypeId: 2, selected: planer_og_strategier },
+            { subtypeId: 3, selected: miljoe_natur_og_klima },
+            { subtypeId: 4, selected: veje_fortove_og_groenne_omraader },
+            { subtypeId: 6, selected: erhverv_byggeri }];
+        return mainCategories;
+    }
 
     function updateElementValue(elementId, value) {
         if (value) {
@@ -121,13 +145,53 @@
         // update in database.
     }
 
+    var queryTask = new QueryTask("http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/MapServer/0");
+
+    var query = new Query();
+    query.returnGeometry = false;
+    query.outFields = ["TITEL"];
+    query.geometry = map.extent;
+    query.spatialRelationship = Query.SPATIAL_REL_INTERSECTS;
+
+    function showResults(results) {
+        var resultItems = [];
+        var resultCount = results.features.length;
+        for (var i = 0; i < resultCount; i++) {
+            var featureAttributes = results.features[i].attributes;
+            for (var attr in featureAttributes) {
+                resultItems.push("<b>" + attr + ":</b>  " + featureAttributes[attr] + "<br>");
+            }
+            resultItems.push("<br>");
+        }
+        dom.byId("info").innerHTML = resultItems.join("");
+    }
+
+    function execute() {
+        query.where = "1=1";
+        query.geometry = map.extent;
+        queryTask.execute(query, showResults);
+    }
+
     function getPlans() {
         console.info("Getting plans...");
         // get main categories
+        var mainCategories = getSelectedMainCategoriesAsSubtypes();
+        console.log(mainCategories);
         // get search geometry
+
+
         // search (set time, show "Titel")
+
         // include main catogories from user i search
-        // populate documentList with results
+
+        // getResults
+
+        // present results
+
+
+
+
+
     }
 
     function addListener(element, eventHandlerFunction, eventType) {
@@ -142,5 +206,7 @@
     addListener("deletePraj", deletePraj, "click");
     addListener("createPraj", createPraj, "click");
     addListener("updatePraj", updatePraj, "click");
-    addListener("getPlans", getPlans, "click");
+    //addListener("getPlans", getPlans, "click");
+    addListener("getPlans", execute, "click");
+    //on(dom.byId("getPlans"), "click", execute);
 });
