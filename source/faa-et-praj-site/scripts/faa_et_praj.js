@@ -16,8 +16,11 @@
   "dojo/_base/array",
   "dojo/parser",
   "dojo/ready",
+  "esri/symbols/SimpleFillSymbol",
+  "esri/symbols/SimpleLineSymbol",
+  "esri/Color",
   //"dojo/domReady!"
-], function (esriConfig, Map, Search, WMSLayer, FeatureLayer, FeatureTable, WMTSLayer, SpatialReference, Extent, Query, QueryTask, dom, on, domConstruct, arrayUtil, parser, ready) {
+], function (esriConfig, Map, Search, WMSLayer, FeatureLayer, FeatureTable, WMTSLayer, SpatialReference, Extent, Query, QueryTask, dom, on, domConstruct, arrayUtil, parser, ready, SimpleFillSymbol, SimpleLineSymbol, Color) {
     // TODO: general url-encoding of parameters.
     esriConfig.defaults.io.corsEnabledServers.push({
         host: "http://kortforsyningen.kms.dk",
@@ -35,7 +38,9 @@
             basemap: "gray",
             container: "viewDiv",  // Reference to the scene div created in step 5
             zoom: 12,  // Sets the zoom level based on level of detail (LOD)
-            center: [9.47, 55.5]  // Sets the center point of view in lon/lat
+            center: [9.47, 55.5],  // Sets the center point of view in lon/lat
+            logo: false,
+            showAttribution: false
         });
         /*var wmsLayer = new WMSLayer('http://kortforsyningen.kms.dk/service?request=GetCapabilities&version=1.1.1&login=Kommune621&password=Qwertyu10&servicename=topo_skaermkort&service=WMS');
         var wmtsLayer = new WMTSLayer('http://kortforsyningen.kms.dk/?servicename=topo_skaermkort_daempet&client=arcGIS&request=GetCapabilities&service=WMTS&acceptversions=1.0.0&login=Kommune621&password=Qwertyu10', {
@@ -48,20 +53,51 @@
 
         var myFeatureLayer = new FeatureLayer("http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/0", {
             mode: FeatureLayer.MODE_ONDEMAND,
-            //outFields: ["TITEL"],
+            outFields: ["TITEL"],
             visible: true,
             id: "fLayer"
         });
 
+        var selectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+            new Color([255, 0, 0, 0.35]), 1),
+            new Color([255, 0, 0, 0.35]));
+        myFeatureLayer.setSelectionSymbol(selectionSymbol);
+
+
+        myFeatureLayer.on("click", function (evt) {
+            var idProperty = myFeatureLayer.objectIdField;
+            var feature, featureId, query;
+
+            if (evt.graphic && evt.graphic.attributes && evt.graphic.attributes[idProperty]) {
+                feature = evt.graphic,
+                featureId = feature.attributes[idProperty];
+
+                query = new Query();
+                query.returnGeometry = false;
+                query.objectIds = [featureId];
+                query.where = "1=1";
+
+                myFeatureLayer.selectFeatures(query, FeatureLayer.SELECTION_NEW);
+            }
+        });
+
         var myTable = new FeatureTable({
+            map: map,
             featureLayer: myFeatureLayer,
             showGridMenu: false,
             hiddenFields: ["OBJECTID"],
             showAttachments: true,
-            showRelatedRecords: true
+            syncSelection: true
+            //showRelatedRecords: true
         }, "myTableNode");
 
-
+        function whenExtentChanges() {
+            var mapExtent = map.extent;
+            var query = new Query();
+            query.geometry = mapExtent;
+            featureLayer.selectFeatures(query, FeatureLayer.SELECTION_NEW);
+        }
 
         //map.addLayer(wmsLayer);
         //map.addLayer(featureLayer);
@@ -232,5 +268,6 @@
         //addListener("getPlans", getPlans, "click");
         addListener("getPlans", execute, "click");
         //on(dom.byId("getPlans"), "click", execute);
+        on(map, "extent-change", whenExtentChanges);
     });
 });

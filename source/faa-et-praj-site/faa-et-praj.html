@@ -13,7 +13,7 @@
 <body class="calcite esri">
     <h1>Høringer og afgørelser</h1>
     <section>
-        <h2>kort</h2>
+        <h2>Vælg dit interesseområde</h2>
         <div id="viewDiv">
 
         </div>
@@ -42,9 +42,9 @@
         <input type="button" value="Hent aktuelle høringer og planer" id="getPlans" />
         <div id="documentList"></div>
     </section>
-    <div class="claro esri" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline', gutters: false" style="width:700px; height:50%">
+    <div class="claro esri" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline', gutters: false" style="width:700px; height:30%">
         <div id="top" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
-            <p><em>Planliste.</em></p>
+            <p><em>Aktuelle høringer, afgørelser og planer:</em></p>
         </div>
         <div id="bot" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
             <div id="myTableNode"></div>
@@ -52,12 +52,15 @@
     </div>
     <section>
         <h2>Dine kontaktoplysninger</h2>
-        <input type="text" value="" id="name" />
         <label for="name">Navn</label>
-        <input type="email" value="" id="email" />
+        <input type="text" value="" id="name"/>
+        <br/>
         <label for="email">Email</label>
-        <input type="tel" value="" id="phone" />
+        <input type="email" value="" id="email" />
+        <br/>
         <label for="phone">Mobilnummer</label>
+        <input type="tel" value="" id="phone" />
+        <br/>
         <input type="button" value="Tilmeld" id="createPraj" />
         <input type="button" value="Gem ændringer" id="updatePraj" />
     </section>
