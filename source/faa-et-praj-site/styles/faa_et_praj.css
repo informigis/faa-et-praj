@@ -17,6 +17,10 @@
     display: none;
 }
 
+#categories {
+    display: none;
+}
+
 form, input, label {
     display: inline-block;
     vertical-align: middle;

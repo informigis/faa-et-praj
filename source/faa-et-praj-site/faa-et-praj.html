@@ -3,12 +3,14 @@
 <head>
     <title>Få et praj</title>
     <meta charset="utf-8" />
-    <link href="styles/style.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://js.arcgis.com/3.19/esri/themes/calcite/dijit/calcite.css">
-    <link rel="stylesheet" href="https://js.arcgis.com/3.19/esri/themes/calcite/esri/esri.css">
+    <link href="styles/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.19/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.19/esri/css/esri.css">
+    <!--<link rel="stylesheet" href="https://js.arcgis.com/3.19/esri/themes/calcite/dijit/calcite.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.19/esri/themes/calcite/esri/esri.css">-->
     <link rel="stylesheet" href="styles/faa_et_praj.css" />
 </head>
-<body class="calcite">
+<body class="calcite esri">
     <h1>Høringer og afgørelser</h1>
     <section>
         <h2>kort</h2>
@@ -20,18 +22,18 @@
     <h2 id="userMessage"></h2>
     <div id="info"></div>
     <a href="" id="prajLink"></a>
-    <section>
+    <section id="categories">
         <h2>kategorier</h2>
         <div>
             <input type="checkbox" name="Byggeri og bolig" value="byggeri_og_bolig" id="byggeri_og_bolig" checked="checked" />
             <label for="byggeri_og_bolig">Byggeri og bolig</label>
-            <input type="checkbox" name="Erhverv/byggeri" value="erhverv_byggeri" id="erhverv_byggeri" />
+            <input type="checkbox" name="Erhverv/byggeri" value="erhverv_byggeri" id="erhverv_byggeri" checked="checked" />
             <label for="erhverv_byggeri">Erhverv/byggeri</label>
-            <input type="checkbox" name="Planer og strategier" value="planer_og_strategier" id="planer_og_strategier" />
+            <input type="checkbox" name="Planer og strategier" value="planer_og_strategier" id="planer_og_strategier" checked="checked" />
             <label for="planer_og_strategier">Planer og strategier</label>
-            <input type="checkbox" name="Veje, fortove og grønne områder" value="veje_fortove_og_groenne_omraader" id="veje_fortove_og_groenne_omraader" />
+            <input type="checkbox" name="Veje, fortove og grønne områder" value="veje_fortove_og_groenne_omraader" id="veje_fortove_og_groenne_omraader" checked="checked" />
             <label for="veje_fortove_og_groenne_omraader">Veje, fortove og grønne områder</label>
-            <input type="checkbox" name="Miljø, natur og klima" value="miljoe_natur_og_klima" id="miljoe_natur_og_klima" />
+            <input type="checkbox" name="Miljø, natur og klima" value="miljoe_natur_og_klima" id="miljoe_natur_og_klima" checked="checked" />
             <label for="miljoe_natur_og_klima">Miljø, natur og klima</label>
         </div>
     </section>
@@ -40,6 +42,14 @@
         <input type="button" value="Hent aktuelle høringer og planer" id="getPlans" />
         <div id="documentList"></div>
     </section>
+    <div class="claro esri" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline', gutters: false" style="width:700px; height:50%">
+        <div id="top" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
+            <p><em>Planliste.</em></p>
+        </div>
+        <div id="bot" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+            <div id="myTableNode"></div>
+        </div>
+    </div>
     <section>
         <h2>Dine kontaktoplysninger</h2>
         <input type="text" value="" id="name" />
