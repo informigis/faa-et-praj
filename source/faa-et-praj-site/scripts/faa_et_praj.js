@@ -23,10 +23,11 @@
 ], function (esriConfig, Map, Search, WMSLayer, FeatureLayer, FeatureTable, WMTSLayer, SpatialReference, Extent, Query, QueryTask, dom, on, domConstruct, arrayUtil, parser, ready, SimpleFillSymbol, SimpleLineSymbol, Color) {
     // TODO: general url-encoding of parameters.
     esriConfig.defaults.io.corsEnabledServers.push({
-        host: "http://kortforsyningen.kms.dk",
+        host: "https://kortforsyningen.kms.dk",
         withCredentials: true
     });
-    esriConfig.defaults.io.corsEnabledServers.push("http://gis.kolding.dk");
+    esriConfig.defaults.io.corsEnabledServers.push("https://gis.kolding.dk");
+    esriConfig.defaults.io.corsEnabledServers.push("https://informigis.github.io");
 
     var sagUrl = "https://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/0";
     var borgerAbbUrl = "https://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/1";
