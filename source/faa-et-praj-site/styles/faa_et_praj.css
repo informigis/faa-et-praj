@@ -1,3 +1,7 @@
+body {
+    margin: 20px;
+}
+
 #viewDiv {
     padding: 0;
     margin: 0;
@@ -9,15 +13,15 @@
     display: flex;
     position: relative;
     z-index: 2;
-    bottom: 20px;
-    left: 20px;
+    bottom: 0px;
+    left: 0px;
 }
 
-#deletePraj, #updatePraj {
+#deletePraj, #updatePraj, #borgerAbbSection{
     display: none;
 }
 
-#categories, #getPlans {
+#categories {
     display: none;
 }
 
@@ -27,7 +31,7 @@ form, input, label {
 }
 
     input[type=checkbox] {
-        display: none;
+        /*display: none;*/
     }
 
         input[type=checkbox] + label {

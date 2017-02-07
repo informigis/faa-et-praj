@@ -3,25 +3,32 @@
 <head>
     <title>Få et praj</title>
     <meta charset="utf-8" />
-    <link href="styles/style.css" rel="stylesheet"/>
+    <link href="styles/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://js.arcgis.com/3.19/dijit/themes/claro/claro.css">
     <link rel="stylesheet" href="https://js.arcgis.com/3.19/esri/css/esri.css">
     <!--<link rel="stylesheet" href="https://js.arcgis.com/3.19/esri/themes/calcite/dijit/calcite.css">
     <link rel="stylesheet" href="https://js.arcgis.com/3.19/esri/themes/calcite/esri/esri.css">-->
     <link rel="stylesheet" href="styles/faa_et_praj.css" />
+    <script>
+        function showHideAbbSection(isChecked) {
+            var element = document.getElementById("borgerAbbSection");
+            var element2 = document.getElementById("featureTableContainer");
+            if (isChecked) {
+                element.style.display = 'block';
+                element2.style.display = 'none';
+            } else {
+                element.style.display = 'none';
+                element2.style.display = 'block';
+            }
+        }</script>
 </head>
-<body class="calcite esri">
+<body class="esri">
     <h1>Høringer og afgørelser</h1>
     <section>
         <h2>Vælg dit interesseområde</h2>
-        <div id="viewDiv">
-
-        </div>
+        <div id="viewDiv"></div>
         <div id="search"></div>
     </section>
-    <h2 id="userMessage"></h2>
-    <div id="info"></div>
-    <a href="" id="prajLink"></a>
     <section id="categories">
         <h2>kategorier</h2>
         <div>
@@ -37,30 +44,32 @@
             <label for="miljoe_natur_og_klima">Miljø, natur og klima</label>
         </div>
     </section>
-    <input type="button" value="Slet praj" id="deletePraj" />
-    <section>
-        <input type="button" value="Hent aktuelle høringer og planer" id="getPlans" />
-        <div id="documentList"></div>
-    </section>
-    <div class="claro esri" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline', gutters: false" style="width:700px; height:30%">
+    <div id="featureTableContainer" class="claro esri" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline', gutters: false" style="width: 700px; height: 30%">
         <div id="top" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
-            <p><em>Aktuelle høringer, afgørelser og planer:</em></p>
+            <p>
+                <em>Aktuelle høringer, afgørelser og planer:</em>
+            </p>
         </div>
         <div id="bot" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
             <div id="myTableNode"></div>
         </div>
     </div>
-    <section>
+    <label for="showBorgerAbb" id="labelForShowBorgerAbb">Tilmed praj</label>
+    <input type="checkbox" name="showBorgerAbb" id="showBorgerAbb" onclick="if (this.checked) { showHideAbbSection(true) } else { showHideAbbSection(false) }" />
+    <section id="borgerAbbSection">
+        <h2 id="userMessage"></h2>
+        <a href="" id="prajLink"></a>
+        <input type="button" value="Slet praj" id="deletePraj" />
         <h2>Dine kontaktoplysninger</h2>
         <label for="name">Navn</label>
-        <input type="text" value="" id="name"/>
-        <br/>
+        <input type="text" value="" id="name" />
+        <br />
         <label for="email">Email</label>
         <input type="email" value="" id="email" />
-        <br/>
+        <br />
         <label for="phone">Mobilnummer</label>
         <input type="tel" value="" id="phone" />
-        <br/>
+        <br />
         <input type="button" value="Tilmeld" id="createPraj" />
         <input type="button" value="Gem ændringer" id="updatePraj" />
     </section>

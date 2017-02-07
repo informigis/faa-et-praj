@@ -27,17 +27,25 @@
         withCredentials: true
     });
     esriConfig.defaults.io.corsEnabledServers.push("http://gis.kolding.dk");
-    //esriConfig.defaults.io.corsEnabledServers.push("http://localhost:37831");
-
-    //http://localhost:37831
 
     var sagUrl = "http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/0";
     var borgerAbbUrl = "http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/1";
     var temaSagUrl = "http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/2";
 
+
+
     parser.parse();
 
     ready(function () {
+        function addListener(element, eventHandlerFunction, eventType) {
+            var htmlElement = document.getElementById(element);
+            if (htmlElement.addEventListener) {
+                htmlElement.addEventListener(eventType, eventHandlerFunction, false);
+            } else if (htmlElement.attachEvent) {
+                htmlElement.attachEvent("on" + eventType, eventHandlerFunction);
+            }
+        }
+
         var map = new Map("viewDiv", {
             basemap: "gray",
             container: "viewDiv",  // Reference to the scene div created in step 5
@@ -46,16 +54,8 @@
             logo: false,
             showAttribution: false
         });
-        /*var wmsLayer = new WMSLayer('http://kortforsyningen.kms.dk/service?request=GetCapabilities&version=1.1.1&login=Kommune621&password=Qwertyu10&servicename=topo_skaermkort&service=WMS');
-        var wmtsLayer = new WMTSLayer('http://kortforsyningen.kms.dk/?servicename=topo_skaermkort_daempet&client=arcGIS&request=GetCapabilities&service=WMTS&acceptversions=1.0.0&login=Kommune621&password=Qwertyu10', {
-        });*/
-        var featureLayer = new FeatureLayer("http://gis.kolding.dk/arcgis/rest/services/PublicPlanByg/Lokalplaner/MapServer/0");
-        var sag = new FeatureLayer("http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/0");
-        var borger_abonnement = new FeatureLayer("http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/1");
-        var temaBorgerAbonnement = new FeatureTable("http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/2");
-        var temaSag = new FeatureTable("http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/2");
 
-        var myFeatureLayer = new FeatureLayer("http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/0", {
+        var myFeatureLayer = new FeatureLayer(sagUrl, {
             mode: FeatureLayer.MODE_ONDEMAND,
             outFields: ["TITEL"],
             visible: true,
@@ -150,6 +150,13 @@
             document.getElementById("deletePraj").style.display = "block";
             document.getElementById("updatePraj").style.display = "block";
             document.getElementById("createPraj").style.display = "none";
+
+            document.getElementById("featureTableContainer").style.display = "none";
+            document.getElementById("showBorgerAbb").style.display = "none";
+            document.getElementById("labelForShowBorgerAbb").style.display = "none";
+            document.getElementById("borgerAbbSection").style.display = "block";
+            
+            
             //updateElementValue("createPraj", "Gem ændringer");
             document.getElementById("byggeri_og_bolig").checked = (QueryString.byggeri_og_bolig === "true");
             document.getElementById("erhverv_byggeri").checked = (QueryString.erhverv_byggeri === "true");
@@ -215,70 +222,13 @@
             // update in database.
         }
 
-        var queryTask = new QueryTask("http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/0");
-
-        var query = new Query();
-        query.returnGeometry = false;
-        query.outFields = ["TITEL"];
-        query.geometry = map.extent;
-        query.spatialRelationship = Query.SPATIAL_REL_INTERSECTS;
-
-        function showResults(results) {
-            var resultItems = [];
-            var resultCount = results.features.length;
-            for (var i = 0; i < resultCount; i++) {
-                var featureAttributes = results.features[i].attributes;
-                for (var attr in featureAttributes) {
-                    resultItems.push("<b>" + attr + ":</b>  " + featureAttributes[attr] + "<br>");
-                }
-                resultItems.push("<br>");
-            }
-            dom.byId("info").innerHTML = resultItems.join("");
-        }
-
-        function execute() {
-            query.where = "1=1";
-            query.geometry = map.extent;
-            queryTask.execute(query, showResults);
-        }
-
-        function getPlans() {
-            console.info("Getting plans...");
-            // get main categories
-            var mainCategories = getSelectedMainCategoriesAsSubtypes();
-            console.log(mainCategories);
-            // get search geometry
-
-
-            // search (set time, show "Titel")
-
-            // include main catogories from user i search
-
-            // getResults
-
-            // present results
-
-
-
-
-
-        }
-
-        function addListener(element, eventHandlerFunction, eventType) {
-            var deletePrajElement = document.getElementById(element);
-            if (deletePrajElement.addEventListener) {
-                deletePrajElement.addEventListener(eventType, eventHandlerFunction, false);
-            } else if (deletePrajElement.attachEvent) {
-                deletePrajElement.attachEvent("on" + eventType, eventHandlerFunction);
-            }
-        }
 
         addListener("deletePraj", deletePraj, "click");
+        //on(document.getElementById("deletePraj"), "click", deletePraj);
         addListener("createPraj", createPraj, "click");
+        //on(document.getElementById("createPraj"), "click", createPraj);
         addListener("updatePraj", updatePraj, "click");
-        //addListener("getPlans", getPlans, "click");
-        addListener("getPlans", execute, "click");
-        //on(dom.byId("getPlans"), "click", execute);
+        //        on(document.getElementById("createPraj"), "click", createPraj);
         on(map, "extent-change", whenExtentChanges);
     });
 });
