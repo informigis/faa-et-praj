@@ -106,22 +106,12 @@
 
         function whenExtentChanges() {
             var queryIdsInView = new Query();
-            //queryIdsInView.geometry = extent;
             queryIdsInView.geometry = map.extent;
-            //queryIdsInView.outFields = ["OBJECTID"];
-            //queryIdsInView.returnGeometry = false;
-            //queryIdsInView.returnDistinctValues = true;
             queryIdsInView.where = "1=1";
             var queryTaskIdsInView = new QueryTask(sagUrl);
-            //queryTaskIdsInView.execute(queryIdsInView, updatefeatureTable);
             queryTaskIdsInView.executeForIds(queryIdsInView, updatefeatureTable);
-
-            
-            //myFeatureLayer.selectFeatures(query, myFeatureLayer.SELECTION_NEW);
         }
 
-        //map.addLayer(wmsLayer);
-        //map.addLayer(featureLayer);
         var search = new Search({
             map: map
         }, "search");
