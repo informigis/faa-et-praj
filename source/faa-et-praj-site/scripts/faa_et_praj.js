@@ -31,6 +31,10 @@
 
     //http://localhost:37831
 
+    var sagUrl = "http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/0";
+    var borgerAbbUrl = "http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/1";
+    var temaSagUrl = "http://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/2";
+
     parser.parse();
 
     ready(function () {
@@ -92,11 +96,28 @@
             //showRelatedRecords: true
         }, "myTableNode");
 
+        function updatefeatureTable(featureSet) {
+            var data = featureSet;
+            if (!data) {
+                data = [0];
+            }
+            myTable.filterRecordsByIds(data); 
+        }
+
         function whenExtentChanges() {
-            var mapExtent = map.extent;
-            var query = new Query();
-            query.geometry = mapExtent;
-            featureLayer.selectFeatures(query, FeatureLayer.SELECTION_NEW);
+            var queryIdsInView = new Query();
+            //queryIdsInView.geometry = extent;
+            queryIdsInView.geometry = map.extent;
+            //queryIdsInView.outFields = ["OBJECTID"];
+            //queryIdsInView.returnGeometry = false;
+            //queryIdsInView.returnDistinctValues = true;
+            queryIdsInView.where = "1=1";
+            var queryTaskIdsInView = new QueryTask(sagUrl);
+            //queryTaskIdsInView.execute(queryIdsInView, updatefeatureTable);
+            queryTaskIdsInView.executeForIds(queryIdsInView, updatefeatureTable);
+
+            
+            //myFeatureLayer.selectFeatures(query, myFeatureLayer.SELECTION_NEW);
         }
 
         //map.addLayer(wmsLayer);
