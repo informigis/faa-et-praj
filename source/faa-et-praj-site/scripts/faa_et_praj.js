@@ -92,6 +92,7 @@
             featureLayer: myFeatureLayer,
             showGridMenu: false,
             hiddenFields: ["OBJECTID"],
+            showFeatureCount: false,
             showAttachments: true,
             syncSelection: true
             //showRelatedRecords: true

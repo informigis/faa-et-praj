@@ -24,6 +24,14 @@
 </head>
 <body class="esri">
     <h1>Høringer og afgørelser</h1>
+    <p>Her finder du en oversigt over aktuelle høringer og afgørelser.</p>
+    <br />
+    <p>På kortet kan de se hvilke områder af kommunen som bliver berørt. Brug +/- tasterne til af afgrænse det lokalområde du har interesse for. </p>
+    <br />
+    <p>Tabellen viser de uddybende information omkring de enkelte høringer og afgørelser.</p>
+    <br />
+    <p>Hvis du indtaster din adresse kan du se hvilke høringer og afgørelser der påvirker din ejendom.</p>
+    <br />
     <section>
         <h2>Vælg dit interesseområde</h2>
         <div id="viewDiv"></div>
@@ -54,9 +62,22 @@
             <div id="myTableNode"></div>
         </div>
     </div>
-    <label for="showBorgerAbb" id="labelForShowBorgerAbb">Tilmed praj</label>
+    <h1>Få et praj når der sker noget nyt i dit lokalområde</h1>
+    <p>Du kan tilmelde dig vores Få et praj service. Så får du automatisk besked på mail, når der er nye afgørelser og høringer i dit lokalområde.</p>
+    <br />
+
+    <label for="showBorgerAbb" id="labelForShowBorgerAbb"><b>Tilmed praj</b></label>
     <input type="checkbox" name="showBorgerAbb" id="showBorgerAbb" onclick="if (this.checked) { showHideAbbSection(true) } else { showHideAbbSection(false) }" />
     <section id="borgerAbbSection">
+        <br />
+        <p>Brug + / - tasterne på kortet ovenfor til at fastsætte det lokalområde du har interesse for.</p>
+        <br />
+        <p>Indtast herefter navn, e-mail og mobilnummer og tryk tilmeld. </p>
+        <br />
+        <p>Har du flere lokalområder du gerne vil følge kan du tilmelde dig flere praj med den samme mailadresse.</p>
+        <br />
+        <p>Du kan altid afmelde hvert enkelt praj i den mail vi sender til dig.</p>
+        <br />
         <h2 id="userMessage"></h2>
         <a href="" id="prajLink"></a>
         <input type="button" value="Slet praj" id="deletePraj" />
