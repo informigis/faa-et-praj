@@ -94,6 +94,9 @@
             hiddenFields: ["OBJECTID"],
             showFeatureCount: false,
             showAttachments: true,
+            showColumnHeaderTooltips: false,
+            zoomToSelection: false,
+            showGridHeader: false,
             syncSelection: true
             //showRelatedRecords: true
         }, "myTableNode");
