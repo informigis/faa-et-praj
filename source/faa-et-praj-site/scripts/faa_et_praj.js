@@ -19,8 +19,12 @@
   "esri/symbols/SimpleFillSymbol",
   "esri/symbols/SimpleLineSymbol",
   "esri/Color",
+  "esri/graphic",
+  "esri/symbols/SimpleMarkerSymbol",
+  "esri/InfoTemplate",
+  "esri/geometry/Polygon"
   //"dojo/domReady!"
-], function (esriConfig, Map, Search, WMSLayer, FeatureLayer, FeatureTable, WMTSLayer, SpatialReference, Extent, Query, QueryTask, dom, on, domConstruct, arrayUtil, parser, ready, SimpleFillSymbol, SimpleLineSymbol, Color) {
+], function (esriConfig, Map, Search, WMSLayer, FeatureLayer, FeatureTable, WMTSLayer, SpatialReference, Extent, Query, QueryTask, dom, on, domConstruct, arrayUtil, parser, ready, SimpleFillSymbol, SimpleLineSymbol, Color, Graphic, SimpleMarkerSymbol, InfoTemplate, Polygon) {
     // TODO: general url-encoding of parameters.
     esriConfig.defaults.io.corsEnabledServers.push({
         host: "https://kortforsyningen.kms.dk",
@@ -54,6 +58,10 @@
             center: [9.47, 55.5],  // Sets the center point of view in lon/lat
             logo: false,
             showAttribution: false
+        });
+
+        var borgerAbbFeatureLayer = new FeatureLayer(borgerAbbUrl, {
+
         });
 
         var myFeatureLayer = new FeatureLayer(sagUrl, {
@@ -106,7 +114,7 @@
             if (!data) {
                 data = [0];
             }
-            myTable.filterRecordsByIds(data); 
+            myTable.filterRecordsByIds(data);
         }
 
         function whenExtentChanges() {
@@ -160,8 +168,8 @@
             document.getElementById("showBorgerAbb").style.display = "none";
             document.getElementById("labelForShowBorgerAbb").style.display = "none";
             document.getElementById("borgerAbbSection").style.display = "block";
-            
-            
+
+
             //updateElementValue("createPraj", "Gem ændringer");
             document.getElementById("byggeri_og_bolig").checked = (QueryString.byggeri_og_bolig === "true");
             document.getElementById("erhverv_byggeri").checked = (QueryString.erhverv_byggeri === "true");
@@ -172,6 +180,11 @@
             map.setExtent(extent1);
         }
 
+        function setUserMessage(message) {
+            if (message) {
+                document.getElementById("userMessage").textContent = message;
+            }
+        }
         function deletePraj(e) {
             console.log("Hello deletepraj!");
             // get ids
@@ -179,9 +192,20 @@
             var email = document.getElementById("email").value;
             var phone = document.getElementById("phone").value;
 
-            document.getElementById("userMessage").textContent = "Praj slettet.";
+            setUserMessage("Praj slettet.");
 
             // delete in database
+        }
+
+        function createPrajInDb(geometry, email, navn, telefonnummer) {
+            var polygon = Polygon.fromExtent(geometry);
+            var graphic = new Graphic(polygon, null, { "E_MAIL": email, "NAVN": navn, "TELEFONUMMER": telefonnummer }, null);
+            var createdPraj = [graphic];
+            borgerAbbFeatureLayer.applyEdits(createdPraj, null, null, setUserMessage("Praj oprettet."));
+        }
+
+        function changePrajInDb(geometry, email, navn, telefonnummer, objectId) {
+            
         }
 
         function createPraj() {
@@ -204,6 +228,7 @@
             var ymax = extent.ymax;
             var spatialRefWkid = extent.spatialReference.wkid;
 
+            createPrajInDb(map.extent, email, name, phone);
             // Save to service
             // Error handling
             // Create URL
@@ -218,12 +243,12 @@
             document.getElementById("prajLink").text = refUrl;
             document.getElementById("prajLink").href = refUrl;
             // Update message
-            document.getElementById("userMessage").textContent = "Praj oprettet.";
+            setUserMessage("Praj oprettet.");
         }
 
         function updatePraj() {
             createPraj();
-            document.getElementById("userMessage").textContent = "Praj opdateret.";
+            setUserMessage("Praj opdateret.");
             // update in database.
         }
 
