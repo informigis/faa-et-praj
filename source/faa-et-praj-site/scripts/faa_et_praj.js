@@ -228,11 +228,39 @@
 
         }
 
+        function deleteRelatedInDbWithGlobalId2(data) {
+            var graphics = [];
+            for (var id = 0; id < data; id++) {
+                graphics.push(new Graphic(null, null, { "OBJECTID": id }));
+            }
+
+            temaSagLayer.applyEdits(null, null, graphics, function() { console.info("relatedDeleted") });
+
+        }
+
+        function deleteRelatedInDbWithGlobalId(data)
+        {
+            var globalId = data.features[0].attributes.GlobalID;
+            var queryTask = new QueryTask(temaSagUrl);
+            var query = new Query();
+            query.where = "GlobalID=" + globalId;
+            queryTask.executeForIds(query, deleteRelatedInDbWithGlobalId2);
+        }
+
+
+
         function deletePrajInDb(objectId) {
+            var queryTask = new QueryTask(borgerAbbUrl);
+            var query = new Query();
+            query.objectIds = [objectId];
+            query.outFields = ["GlobalID"];
+            queryTask.execute(query, deleteRelatedInDbWithGlobalId);
+
+
             var polygon = Polygon.fromExtent(map.extent);
             var graphic = new Graphic(polygon, null, { "OBJECTID": objectId }, null);
             var praj = [graphic];
-            borgerAbbFeatureLayer.applyEdits(null, null, praj, setUserMessage("Praj slettet."));
+            borgerAbbFeatureLayer.applyEdits(null, null, praj, function() { setUserMessage("Praj slettet.") });
         }
 
         function updatePrajInDb(geometry, email, navn, telefonnummer, objectId) {
