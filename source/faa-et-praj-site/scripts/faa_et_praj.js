@@ -64,22 +64,24 @@
 
         });
 
-        var myFeatureLayer = new FeatureLayer(sagUrl, {
+        var sagFeatureLayer = new FeatureLayer(sagUrl, {
             mode: FeatureLayer.MODE_ONDEMAND,
             outFields: ["TITEL"],
             visible: true,
             id: "fLayer"
         });
 
+        var temaSagLayer = new FeatureLayer(temaSagUrl);
+
         var selectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
             new Color([255, 0, 0, 0.35]), 1),
             new Color([255, 0, 0, 0.35]));
-        myFeatureLayer.setSelectionSymbol(selectionSymbol);
+        sagFeatureLayer.setSelectionSymbol(selectionSymbol);
 
 
-        myFeatureLayer.on("click", function (evt) {
-            var idProperty = myFeatureLayer.objectIdField;
+        sagFeatureLayer.on("click", function (evt) {
+            var idProperty = sagFeatureLayer.objectIdField;
             var feature, featureId, query;
 
             if (evt.graphic && evt.graphic.attributes && evt.graphic.attributes[idProperty]) {
@@ -91,13 +93,13 @@
                 query.objectIds = [featureId];
                 query.where = "1=1";
 
-                myFeatureLayer.selectFeatures(query, FeatureLayer.SELECTION_NEW);
+                sagFeatureLayer.selectFeatures(query, FeatureLayer.SELECTION_NEW);
             }
         });
 
         var myTable = new FeatureTable({
             map: map,
-            featureLayer: myFeatureLayer,
+            featureLayer: sagFeatureLayer,
             showGridMenu: false,
             hiddenFields: ["OBJECTID"],
             showFeatureCount: false,
@@ -131,7 +133,7 @@
         search.startup();
         myTable.startup();
 
-        map.addLayer(myFeatureLayer);
+        map.addLayer(sagFeatureLayer);
 
         function getSelectedMainCategoriesAsSubtypes() {
             var byggeri_og_bolig = document.getElementById("byggeri_og_bolig").checked;
@@ -186,11 +188,44 @@
             }
         }
 
+        function succesResult(data) {
+            console.info(data);
+        }
+
+        function failureResult(data) {
+            console.error(data);
+        }
+
+        function createRelatedInDbWithGlobalId(data) {
+            var globalId = data.features[0].attributes.GlobalID;
+            
+            var graphic1 = new Graphic(null, null, { "HOVEDKATEGORI": 1, "AKTIV": 1, "BOGERABBID": globalId }, null);
+            var graphic2 = new Graphic(null, null, { "HOVEDKATEGORI": 2, "AKTIV": 1, "BOGERABBID": globalId }, null);
+            var graphic3 = new Graphic(null, null, { "HOVEDKATEGORI": 3, "AKTIV": 1, "BOGERABBID": globalId }, null);
+            var graphic4 = new Graphic(null, null, { "HOVEDKATEGORI": 4, "AKTIV": 1, "BOGERABBID": globalId }, null);
+            var graphic5 = new Graphic(null, null, { "HOVEDKATEGORI": 6, "AKTIV": 1, "BOGERABBID": globalId }, null);
+
+            var relatedTable = [graphic1, graphic2, graphic3, graphic4, graphic5];
+            temaSagLayer.applyEdits(relatedTable, null, null, succesResult, failureResult);
+            setUserMessage("Praj oprettet.");
+        }
+
+        function createRelatedInDb(featureEditResults) {
+            var featureEditResult = featureEditResults[0];
+            var queryTask = new QueryTask(borgerAbbUrl);
+            var query = new Query();
+            query.objectIds = [featureEditResult.objectId];
+            query.outFields = ["GlobalID"];
+            queryTask.execute(query, createRelatedInDbWithGlobalId);
+
+        }
+
         function createPrajInDb(geometry, email, navn, telefonnummer) {
             var polygon = Polygon.fromExtent(geometry);
             var graphic = new Graphic(polygon, null, { "E_MAIL": email, "NAVN": navn, "TELEFONUMMER": telefonnummer }, null);
             var praj = [graphic];
-            borgerAbbFeatureLayer.applyEdits(praj, null, null, setUserMessage("Praj oprettet."));
+            borgerAbbFeatureLayer.applyEdits(praj, null, null, createRelatedInDb);
+
         }
 
         function deletePrajInDb(objectId) {
@@ -213,8 +248,8 @@
         function deletePraj() {
             console.log("Hello deletepraj!");
 
-            var objectId = document.getElementById("objectId").value;
-            deletePrajInDb(objectId);
+            var globalId = document.getElementById("objectId").value;
+            deletePrajInDb(globalId);
             // get ids
             var name = document.getElementById("name").value;
             var email = document.getElementById("email").value;
