@@ -238,7 +238,7 @@
         function updatePrajInDb(geometry, email, navn, telefonnummer, objectId) {
             // just create a new and delete the old (for now at least). 
             //var polygon = Polygon.fromExtent(geometry);
-            //var graphic = new Graphic(polygon, null, { "OBJECTID": objectId, "E_MAIL": email, "NAVN": navn, "TELEFONUMMER": telefonnummer, "AFSLUTDATO": "null" }, null);
+            //var graphic = new Graphic(polygon, null, { "OBJECTID": globalId, "E_MAIL": email, "NAVN": navn, "TELEFONUMMER": telefonnummer, "AFSLUTDATO": "null" }, null);
             //var praj = [graphic];
             //borgerAbbFeatureLayer.applyEdits(null, praj, null, setUserMessage("Praj opdateret."));
             createPrajInDb(geometry, email, navn, telefonnummer);
@@ -248,7 +248,7 @@
         function deletePraj() {
             console.log("Hello deletepraj!");
 
-            var globalId = document.getElementById("objectId").value;
+            var globalId = document.getElementById("globalId").value;
             deletePrajInDb(globalId);
             // get ids
             var name = document.getElementById("name").value;
@@ -302,7 +302,7 @@
             var email = document.getElementById("email").value;
             var phone = document.getElementById("phone").value;
 
-            var objectId = document.getElementById("objectId").value;
+            var objectId = document.getElementById("globalId").value;
             updatePrajInDb(map.extent, email, name, phone, objectId);
             setUserMessage("Praj opdateret.");
             // update in database.
