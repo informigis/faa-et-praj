@@ -185,8 +185,36 @@
                 document.getElementById("userMessage").textContent = message;
             }
         }
-        function deletePraj(e) {
+
+        function createPrajInDb(geometry, email, navn, telefonnummer) {
+            var polygon = Polygon.fromExtent(geometry);
+            var graphic = new Graphic(polygon, null, { "E_MAIL": email, "NAVN": navn, "TELEFONUMMER": telefonnummer }, null);
+            var praj = [graphic];
+            borgerAbbFeatureLayer.applyEdits(praj, null, null, setUserMessage("Praj oprettet."));
+        }
+
+        function deletePrajInDb(objectId) {
+            var polygon = Polygon.fromExtent(map.extent);
+            var graphic = new Graphic(polygon, null, { "OBJECTID": objectId }, null);
+            var praj = [graphic];
+            borgerAbbFeatureLayer.applyEdits(null, null, praj, setUserMessage("Praj slettet."));
+        }
+
+        function updatePrajInDb(geometry, email, navn, telefonnummer, objectId) {
+            // just create a new and delete the old (for now at least). 
+            //var polygon = Polygon.fromExtent(geometry);
+            //var graphic = new Graphic(polygon, null, { "OBJECTID": objectId, "E_MAIL": email, "NAVN": navn, "TELEFONUMMER": telefonnummer, "AFSLUTDATO": "null" }, null);
+            //var praj = [graphic];
+            //borgerAbbFeatureLayer.applyEdits(null, praj, null, setUserMessage("Praj opdateret."));
+            createPrajInDb(geometry, email, navn, telefonnummer);
+            deletePrajInDb(objectId);
+        }
+
+        function deletePraj() {
             console.log("Hello deletepraj!");
+
+            var objectId = document.getElementById("objectId").value;
+            deletePrajInDb(objectId);
             // get ids
             var name = document.getElementById("name").value;
             var email = document.getElementById("email").value;
@@ -197,24 +225,12 @@
             // delete in database
         }
 
-        function createPrajInDb(geometry, email, navn, telefonnummer) {
-            var polygon = Polygon.fromExtent(geometry);
-            var graphic = new Graphic(polygon, null, { "E_MAIL": email, "NAVN": navn, "TELEFONUMMER": telefonnummer }, null);
-            var createdPraj = [graphic];
-            borgerAbbFeatureLayer.applyEdits(createdPraj, null, null, setUserMessage("Praj oprettet."));
-        }
-
-        function changePrajInDb(geometry, email, navn, telefonnummer, objectId) {
-            
-        }
-
         function createPraj() {
             console.log("Hello createPraj!");
             // get data 
             var name = document.getElementById("name").value;
             var email = document.getElementById("email").value;
             var phone = document.getElementById("phone").value;
-            // get [emner]
             var byggeri_og_bolig = document.getElementById("byggeri_og_bolig").checked;
             var erhverv_byggeri = document.getElementById("erhverv_byggeri").checked;
             var planer_og_strategier = document.getElementById("planer_og_strategier").checked;
@@ -247,7 +263,12 @@
         }
 
         function updatePraj() {
-            createPraj();
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var phone = document.getElementById("phone").value;
+
+            var objectId = document.getElementById("objectId").value;
+            updatePrajInDb(map.extent, email, name, phone, objectId);
             setUserMessage("Praj opdateret.");
             // update in database.
         }

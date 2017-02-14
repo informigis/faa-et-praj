@@ -53,8 +53,8 @@
         </div>
     </section>
     <div id="featureTableContainer" class="claro esri" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline', gutters: false" style="width: 650px; height: 500px">
-            <h2>Detaljerede oplysninger – Afgørelser og høringer</h2>
-            <div id="myTableNode"></div>
+        <h2>Detaljerede oplysninger – Afgørelser og høringer</h2>
+        <div id="myTableNode"></div>
     </div>
     <h1>Få et praj når der sker noget nyt i dit lokalområde</h1>
     <p>Du kan tilmelde dig vores Få et praj service. Så får du automatisk besked på mail, når der er nye afgørelser og høringer i dit lokalområde.</p>
@@ -86,7 +86,29 @@
         <input type="tel" value="" id="phone" />
         <br />
         <input type="button" value="Tilmeld" id="createPraj" />
-        <input type="button" value="Gem ændringer" id="updatePraj" />
+        <input type="button" value="Gem ændringer" id="updatePraj"/>
+        <br/>
+        <label for="objectId">objectId</label>
+        <input type="text" value="" id="objectId" />
+    </section>
+    <section id="emailToUser">
+        <br />
+        <hr />
+        <br />
+        <em><b>Dette er indholdet af den email der bliver tilsendt med oprettelse af et praj.</b></em>
+        <h2>Få et praj</h2>
+        <p>
+            Du har tilmedt dig få et praj. <a href="#emailToUser">Bekræft din tilmelding ved at klikke her.</a>
+        </p>
+        <p>
+            <a href="#emailToUser" id="linkToPraj">Hvis du vil ændre eller slette dit praj.</a>
+        </p>
+        <br />
+        <p>
+            Venlig hilsen
+        </p>
+        <br />
+        <p>Kolding Kommune</p>
     </section>
     <script src="scripts/querystring_extract.js"></script>
     <script src="https://js.arcgis.com/3.19/"></script>
