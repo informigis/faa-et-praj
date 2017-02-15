@@ -201,7 +201,8 @@
             query.objectIds = [featureEditResult.objectId];
             query.outFields = ["GlobalID"];
             queryTask.execute(query, createRelatedInDbWithGlobalId);
-
+            // Hack: 
+            document.getElementById("prajLink").href = document.getElementById("prajLink").href + "&objectId=" + featureEditResult.objectId;
         }
 
         function createPrajInDb(geometry, email, navn, telefonnummer) {
