@@ -278,11 +278,11 @@
             var name = document.getElementById("name").value;
             var email = document.getElementById("email").value;
             var phone = document.getElementById("phone").value;
-            var byggeri_og_bolig = document.getElementById("byggeri_og_bolig").checked;
+/*            var byggeri_og_bolig = document.getElementById("byggeri_og_bolig").checked;
             var erhverv_byggeri = document.getElementById("erhverv_byggeri").checked;
             var planer_og_strategier = document.getElementById("planer_og_strategier").checked;
             var veje_fortove_og_groenne_omraader = document.getElementById("veje_fortove_og_groenne_omraader").checked;
-            var miljoe_natur_og_klima = document.getElementById("miljoe_natur_og_klima").checked;
+            var miljoe_natur_og_klima = document.getElementById("miljoe_natur_og_klima").checked;*/
             // get map extent
             var extent = map.extent;
             var xmin = extent.xmin;
@@ -295,9 +295,9 @@
             // Save to service
             // Error handling
             // Create URL
-            var tema = "&byggeri_og_bolig=" + byggeri_og_bolig + "&erhverv_byggeri=" + erhverv_byggeri + "&planer_og_strategier=" + planer_og_strategier + "&veje_fortove_og_groenne_omraader=" + veje_fortove_og_groenne_omraader + "&miljoe_natur_og_klima=" + miljoe_natur_og_klima;
+            /*var tema = "&byggeri_og_bolig=" + byggeri_og_bolig + "&erhverv_byggeri=" + erhverv_byggeri + "&planer_og_strategier=" + planer_og_strategier + "&veje_fortove_og_groenne_omraader=" + veje_fortove_og_groenne_omraader + "&miljoe_natur_og_klima=" + miljoe_natur_og_klima;*/
             var spatrefUrl = "&xmin=" + xmin + "&ymin=" + ymin + "&xmax=" + xmax + "&ymax=" + ymax + "&spatialRefWkid=" + spatialRefWkid;
-            var searchPartOfUrl = "?navn=" + name + "&email=" + email + "&mobileNumber=" + phone + tema;
+            var searchPartOfUrl = "?navn=" + name + "&email=" + email + "&mobileNumber=" + phone /*+ tema*/;
             var locationPathname = location.pathname;
             if (QueryString.parentContainer) {
                 locationPathname = QueryString.parentContainer;
