@@ -144,6 +144,7 @@
         updateElementValue("name", QueryString.navn);
         updateElementValue("email", QueryString.email);
         updateElementValue("phone", QueryString.mobileNumber);
+        updateElementValue("objectId", QueryString.objectId);
 
         if (QueryString.email && QueryString.mobileNumber) {
             document.getElementById("deletePraj").style.display = "block";
@@ -261,7 +262,7 @@
         function deletePraj() {
             console.log("Hello deletepraj!");
 
-            var objectId = document.getElementById("objectId").value;
+            var objectId = parseInt(document.getElementById("objectId").value);
             deletePrajInDb(objectId);
 
             setUserMessage("Praj slettet.");
@@ -309,7 +310,8 @@
             var email = document.getElementById("email").value;
             var phone = document.getElementById("phone").value;
 
-            var objectId = document.getElementById("objectId").value;
+            var objectId = parseInt(document.getElementById("objectId").value);
+
             updatePrajInDb(map.extent, email, name, phone, objectId);
             setUserMessage("Praj opdateret.");
             // update in database.
