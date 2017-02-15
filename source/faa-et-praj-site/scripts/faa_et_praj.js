@@ -260,16 +260,10 @@
         function deletePraj() {
             console.log("Hello deletepraj!");
 
-            var globalId = document.getElementById("objectId").value;
-            deletePrajInDb(globalId);
-            // get ids
-            var name = document.getElementById("name").value;
-            var email = document.getElementById("email").value;
-            var phone = document.getElementById("phone").value;
+            var objectId = document.getElementById("objectId").value;
+            deletePrajInDb(objectId);
 
             setUserMessage("Praj slettet.");
-
-            // delete in database
         }
 
         function createPraj() {
