@@ -135,22 +135,6 @@
 
         map.addLayer(sagFeatureLayer);
 
-        function getSelectedMainCategoriesAsSubtypes() {
-            var byggeri_og_bolig = document.getElementById("byggeri_og_bolig").checked;
-            var erhverv_byggeri = document.getElementById("erhverv_byggeri").checked;
-            var planer_og_strategier = document.getElementById("planer_og_strategier").checked;
-            var veje_fortove_og_groenne_omraader = document.getElementById("veje_fortove_og_groenne_omraader").checked;
-            var miljoe_natur_og_klima = document.getElementById("miljoe_natur_og_klima").checked;
-
-            var mainCategories = [
-                { subtypeId: 1, selected: byggeri_og_bolig },
-                { subtypeId: 2, selected: planer_og_strategier },
-                { subtypeId: 3, selected: miljoe_natur_og_klima },
-                { subtypeId: 4, selected: veje_fortove_og_groenne_omraader },
-                { subtypeId: 6, selected: erhverv_byggeri }];
-            return mainCategories;
-        }
-
         function updateElementValue(elementId, value) {
             if (value) {
                 document.getElementById(elementId).value = value;
