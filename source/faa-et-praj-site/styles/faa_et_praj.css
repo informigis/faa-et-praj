@@ -1,5 +1,5 @@
 body {
-    margin: 20px;
+    margin: 0px;
     width: 660px;
 }
 
@@ -13,7 +13,7 @@ body {
 #featureTableContainer {
     padding: 0;
     margin: 0;
-    height: 30%;
+    height: 400px;
     width: 650px;
 }
 
