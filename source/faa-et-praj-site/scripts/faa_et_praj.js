@@ -25,10 +25,6 @@
   "esri/geometry/Polygon"
   //"dojo/domReady!"
 ], function (esriConfig, Map, Search, WMSLayer, FeatureLayer, FeatureTable, WMTSLayer, SpatialReference, Extent, Query, QueryTask, dom, on, domConstruct, arrayUtil, parser, ready, SimpleFillSymbol, SimpleLineSymbol, Color, Graphic, SimpleMarkerSymbol, InfoTemplate, Polygon) {
-    esriConfig.defaults.io.corsEnabledServers.push({
-        host: "https://kortforsyningen.kms.dk",
-        withCredentials: true
-    });
     esriConfig.defaults.io.corsEnabledServers.push("https://gis.kolding.dk");
     esriConfig.defaults.io.corsEnabledServers.push("https://informigis.github.io");
 
@@ -259,7 +255,6 @@
         }
 
         function createPraj() {
-            console.log("Hello createPraj!");
             // get data 
             var name = document.getElementById("name").value;
             var email = document.getElementById("email").value;
