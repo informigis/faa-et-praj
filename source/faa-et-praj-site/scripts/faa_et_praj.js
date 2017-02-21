@@ -201,7 +201,7 @@
             var polygon = Polygon.fromExtent(geometry);
             var graphic = new Graphic(polygon, null, { "E_MAIL": email, "NAVN": navn, "TELEFONUMMER": telefonnummer }, null);
             var praj = [graphic];
-            borgerAbbFeatureLayer.applyEdits(praj, null, null, createRelatedInDb);
+            borgerAbbFeatureLayer.applyEdits(praj, null, null, createRelatedInDb, function (data) { console.error(data); console.error("NOT_Deleted") });
 
         }
 
@@ -211,7 +211,7 @@
                 graphics.push(new Graphic(null, null, { "OBJECTID": id }));
             }
 
-            temaSagLayer.applyEdits(null, null, graphics, function() { console.info("relatedDeleted") });
+            temaSagLayer.applyEdits(null, null, graphics, function (data) { console.info(data); console.info("relatedDeleted") }, function (data) { console.error(data); console.error("related_NOT_Deleted") });
         }
 
         function deleteRelatedInDbWithGlobalId(data)
@@ -219,7 +219,7 @@
             var globalId = data.features[0].attributes.GlobalID;
             var queryTask = new QueryTask(temaSagUrl);
             var query = new Query();
-            query.where = "GlobalID=" + globalId;
+            query.where = "GlobalID='" + globalId + "'";
             queryTask.executeForIds(query, deleteRelatedInDbWithGlobalId2);
         }
 
@@ -246,8 +246,6 @@
         }
 
         function deletePraj() {
-            console.log("Hello deletepraj!");
-
             var objectId = parseInt(document.getElementById("objectId").value);
             deletePrajInDb(objectId);
 
