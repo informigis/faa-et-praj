@@ -2,23 +2,30 @@
 <html>
 <head>
     <title>Moder site for få-et-praj-sitet</title>
-	<meta charset="utf-8" />
+    <meta charset="utf-8" />
 </head>
 <body>
-<h1>Kolding Kommune</h1>
-<iframe style="width: 700px; height: 1000px" src="faa-et-praj.html" id="faa-et-praj"></iframe>
-<script>
-    (function() {
-        var iframe = document.getElementById("faa-et-praj");
-        var parentContainer = "";
-        if (window.location.search) {
+    <h1>Kolding Kommune</h1>
+    <div id="myPrintArea">
+        <h3 style="font-weight: bold; margin-top: 5px; margin-bottom: 5px; float: left; clear: both; padding: 0;"></h3><div>
+            <span class="reditem_editor reditem_editor_3">
+                <p><iframe src="./faa-et-praj.html" width="700" height="1600" scrolling="No" border="0" style="border: 0;"></iframe></p>
+            </span>
+        </div><div style="clear: both;">     </div>
+    </div>
+    <!--<iframe style="width: 700px; height: 1000px" src="faa-et-praj.html" id="faa-et-praj"></iframe>-->
+    <script>
+        (function () {
+            var iframe = document.getElementById("faa-et-praj");
+            var parentContainer = "";
+            if (window.location.search) {
 
-            iframe.src = iframe.src + window.location.search + "&parentContainer=" + parentContainer;
-        } else {
-            iframe.src = iframe.src + "?parentContainer=" + window.location.pathname;
-        }
+                iframe.src = iframe.src + window.location.search + "&parentContainer=" + parentContainer;
+            } else {
+                iframe.src = iframe.src + "?parentContainer=" + window.location.pathname;
+            }
 
-    })();
-</script>
+        })();
+    </script>
 </body>
 </html>
