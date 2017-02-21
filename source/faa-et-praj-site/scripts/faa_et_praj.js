@@ -37,8 +37,6 @@
     var borgerAbbUrl = "https://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/1";
     var temaSagUrl = "https://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/2";
 
-
-
     parser.parse();
 
     ready(function () {
@@ -53,9 +51,9 @@
 
         var map = new Map("viewDiv", {
             basemap: "gray",
-            container: "viewDiv",  // Reference to the scene div created in step 5
-            zoom: 12,  // Sets the zoom level based on level of detail (LOD)
-            center: [9.47, 55.5],  // Sets the center point of view in lon/lat
+            container: "viewDiv",  
+            zoom: 12,  
+            center: [9.47, 55.5],  
             logo: false,
             showAttribution: false
         });
@@ -108,7 +106,6 @@
             zoomToSelection: false,
             showGridHeader: false,
             syncSelection: true
-            //showRelatedRecords: true
         }, "myTableNode");
 
         function updatefeatureTable(featureSet) {
@@ -156,8 +153,6 @@
             document.getElementById("labelForShowBorgerAbb").style.display = "none";
             document.getElementById("borgerAbbSection").style.display = "block";
 
-
-            //updateElementValue("createPraj", "Gem ændringer");
             document.getElementById("byggeri_og_bolig").checked = (QueryString.byggeri_og_bolig === "true");
             document.getElementById("erhverv_byggeri").checked = (QueryString.erhverv_byggeri === "true");
             document.getElementById("planer_og_strategier").checked = (QueryString.planer_og_strategier === "true");
@@ -202,6 +197,7 @@
             query.objectIds = [featureEditResult.objectId];
             query.outFields = ["GlobalID"];
             queryTask.execute(query, createRelatedInDbWithGlobalId);
+
             // Hack: 
             document.getElementById("prajLink").href = document.getElementById("prajLink").href + "&objectId=" + featureEditResult.objectId;
         }
@@ -221,7 +217,6 @@
             }
 
             temaSagLayer.applyEdits(null, null, graphics, function() { console.info("relatedDeleted") });
-
         }
 
         function deleteRelatedInDbWithGlobalId(data)
@@ -251,10 +246,6 @@
 
         function updatePrajInDb(geometry, email, navn, telefonnummer, objectId) {
             // just create a new and delete the old (for now at least). 
-            //var polygon = Polygon.fromExtent(geometry);
-            //var graphic = new Graphic(polygon, null, { "OBJECTID": objectId, "E_MAIL": email, "NAVN": navn, "TELEFONUMMER": telefonnummer, "AFSLUTDATO": "null" }, null);
-            //var praj = [graphic];
-            //borgerAbbFeatureLayer.applyEdits(null, praj, null, setUserMessage("Praj opdateret."));
             createPrajInDb(geometry, email, navn, telefonnummer);
             deletePrajInDb(objectId);
         }
@@ -274,11 +265,6 @@
             var name = document.getElementById("name").value;
             var email = document.getElementById("email").value;
             var phone = document.getElementById("phone").value;
-/*            var byggeri_og_bolig = document.getElementById("byggeri_og_bolig").checked;
-            var erhverv_byggeri = document.getElementById("erhverv_byggeri").checked;
-            var planer_og_strategier = document.getElementById("planer_og_strategier").checked;
-            var veje_fortove_og_groenne_omraader = document.getElementById("veje_fortove_og_groenne_omraader").checked;
-            var miljoe_natur_og_klima = document.getElementById("miljoe_natur_og_klima").checked;*/
             // get map extent
             var extent = map.extent;
             var xmin = extent.xmin;
@@ -288,12 +274,8 @@
             var spatialRefWkid = extent.spatialReference.wkid;
 
             createPrajInDb(map.extent, email, name, phone);
-            // Save to service
-            // Error handling
-            // Create URL
-            /*var tema = "&byggeri_og_bolig=" + byggeri_og_bolig + "&erhverv_byggeri=" + erhverv_byggeri + "&planer_og_strategier=" + planer_og_strategier + "&veje_fortove_og_groenne_omraader=" + veje_fortove_og_groenne_omraader + "&miljoe_natur_og_klima=" + miljoe_natur_og_klima;*/
             var spatrefUrl = "&xmin=" + xmin + "&ymin=" + ymin + "&xmax=" + xmax + "&ymax=" + ymax + "&spatialRefWkid=" + spatialRefWkid;
-            var searchPartOfUrl = "?navn=" + name + "&email=" + email + "&mobileNumber=" + phone /*+ tema*/;
+            var searchPartOfUrl = "?navn=" + name + "&email=" + email + "&mobileNumber=" + phone;
             var locationPathname = location.pathname;
             if (QueryString.parentContainer) {
                 locationPathname = QueryString.parentContainer;
@@ -314,7 +296,6 @@
 
             updatePrajInDb(map.extent, email, name, phone, objectId);
             setUserMessage("Praj opdateret.");
-            // update in database.
         }
 
 
