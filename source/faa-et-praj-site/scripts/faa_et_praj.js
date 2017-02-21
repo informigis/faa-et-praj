@@ -25,7 +25,6 @@
   "esri/geometry/Polygon"
   //"dojo/domReady!"
 ], function (esriConfig, Map, Search, WMSLayer, FeatureLayer, FeatureTable, WMTSLayer, SpatialReference, Extent, Query, QueryTask, dom, on, domConstruct, arrayUtil, parser, ready, SimpleFillSymbol, SimpleLineSymbol, Color, Graphic, SimpleMarkerSymbol, InfoTemplate, Polygon) {
-    // TODO: general url-encoding of parameters.
     esriConfig.defaults.io.corsEnabledServers.push({
         host: "https://kortforsyningen.kms.dk",
         withCredentials: true
@@ -282,7 +281,7 @@
             }
             var refUrl = window.location.protocol + "//" + window.location.host + locationPathname + searchPartOfUrl + spatrefUrl;
             document.getElementById("prajLink").text = "Lav om på dit praj ved at klikke her.";
-            document.getElementById("prajLink").href = refUrl;
+            document.getElementById("prajLink").href = encodeURI(refUrl);
             // Update message
             setUserMessage("Praj oprettet.");
         }
