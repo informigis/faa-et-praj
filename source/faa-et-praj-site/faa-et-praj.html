@@ -21,17 +21,15 @@
         }</script>
 </head>
 <body class="esri">
-    <h1>Høringer og afgørelser</h1>
-    <p>Her finder du en oversigt over aktuelle høringer og afgørelser.</p>
+    <p>Her på siden kan du få et overblik over alle aktuelle høringer og afgørelser i Kolding Kommune og tilmelde dig vores Få et praj service.</p>
     <br />
-    <p>På kortet kan de se hvilke områder af kommunen som bliver berørt. Brug +/- tasterne til af afgrænse det lokalområde du har interesse for. </p>
+    <p>Du kan se alle aktuelle sager på kortet. Du zoomer ind og ud på kortet med +/- knapperne. </p>
     <br />
-    <p>Tabellen viser de uddybende information omkring de enkelte høringer og afgørelser.</p>
+    <p>Jo længere du zoomer ind på kortet, jo færre sager kan du se i listevisningen. </p>
     <br />
-    <p>Hvis du indtaster din adresse kan du se hvilke høringer og afgørelser der påvirker din ejendom.</p>
+    <p>Nedenunder kortet kan du se de aktuelle sager i en listevisning, hvor du også kan se finde detaljer om sagen. </p>
     <br />
     <section>
-        <h2>Vælg dit interesseområde</h2>
         <div id="viewDiv"></div>
         <div id="search"></div>
     </section>
@@ -54,20 +52,20 @@
         <h2>Detaljerede oplysninger – Afgørelser og høringer</h2>
         <div id="myTableNode"></div>
     </div>
-    <h1>Få et praj når der sker noget nyt i dit lokalområde</h1>
-    <p>Du kan tilmelde dig vores Få et praj service. Så får du automatisk besked på mail, når der er nye afgørelser og høringer i dit lokalområde.</p>
+    <h1>Få et praj – Når der sker noget nyt</h1>
+    <p>Få et praj er en service, hvor du automatisk får besked, når der er nye høringer og afgørelser i det område, du vælger ud på kortet. </p>
     <br />
 
     <label for="showBorgerAbb" id="labelForShowBorgerAbb"><b>Tilmed praj</b></label>
     <input type="checkbox" name="showBorgerAbb" id="showBorgerAbb" onclick="if (this.checked) { showHideAbbSection(true) } else { showHideAbbSection(false) }" />
     <section id="borgerAbbSection">
         <br />
-        <p>Brug + / - tasterne på kortet ovenfor til at fastsætte det lokalområde du har interesse for.</p>
+        <p>Skriv en adresse eller brug + / - tasterne på kortet ovenfor til at fastsætte det område i kommunen, du har interesse for.</p>
         <br />
         <p>Indtast herefter navn, e-mail og mobilnummer og tryk tilmeld. </p>
         <br />
-        <p>Har du flere lokalområder du gerne vil følge kan du tilmelde dig flere praj med den samme mailadresse.</p>
-        <br />
+        <p>Har du interesse for flere områder, kan du tilmelde dig flere praj med den samme mailadresse.</p>
+        <br/>
         <p>Du kan altid afmelde hvert enkelt praj i den mail vi sender til dig.</p>
         <br />
         <input type="button" value="Slet praj" id="deletePraj" />
