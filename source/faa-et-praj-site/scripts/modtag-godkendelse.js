@@ -4,9 +4,8 @@
     "esri/tasks/QueryTask",
     "esri/tasks/query",
     "esri/graphic",
-    "esri/geometry/Polygon",
     "dojo/domReady!"
-], function (esriConfig, FeatureLayer, QueryTask, Query, Graphic, polygon) {
+], function (esriConfig, FeatureLayer, QueryTask, Query, Graphic) {
     esriConfig.defaults.io.corsEnabledServers.push("https://gis.kolding.dk");
     esriConfig.defaults.io.corsEnabledServers.push("https://informigis.github.io");
 
@@ -22,18 +21,11 @@
     }
 
     function setEmailverificationStatus(results) {
-        console.log("here...");
         var objectId = results[0];
 
         var graphic = new Graphic(null, null, { "OBJECTID": objectId, "TELEFONUMMER": 5 }, null);
         var praj = [graphic];
         borgerAbbFeatureLayer.applyEdits(null, praj, null, function (data) { console.log(data); console.log("success.") }, function (data) { console.error(data); console.error("NOT_Deleted") });
-
-
-        //var queryTask = new QueryTask(borgerAbbUrl);
-        //var query = new Query();
-        //query.where = "GlobalID='" + globalId + "'";
-        //queryTask.executeForIds(query, callback);
     }
 
     function getObjectIdFromGlobalId(globalId, callback) {
