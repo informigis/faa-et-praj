@@ -12,6 +12,8 @@
     var ingenGlobalIdFejlmeddelelse = "Der opstod en fejl ved godkendelsen af email-adressen. Kontakt Kolding Kommune";
     var borgerAbbUrl = "https://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/1";
 
+
+
     var borgerAbbFeatureLayer = new FeatureLayer(borgerAbbUrl, {});
 
     var globalId = QueryString.globalId;
@@ -22,10 +24,10 @@
 
     function setEmailverificationStatus(results) {
         var objectId = results[0];
-
-        var graphic = new Graphic(null, null, { "OBJECTID": objectId, "TELEFONUMMER": 5 }, null);
+        var verified = 1;
+        var graphic = new Graphic(null, null, { "OBJECTID": objectId, "TELEFONUMMER": verified }, null);
         var praj = [graphic];
-        borgerAbbFeatureLayer.applyEdits(null, praj, null, function (data) { console.log(data); console.log("success.") }, function (data) { console.error(data); console.error("NOT_Deleted") });
+        borgerAbbFeatureLayer.applyEdits(null, praj, null, function (data) { console.log(data); console.log("success.") }, function (data) { console.error(data); console.error("failed") });
     }
 
     function getObjectIdFromGlobalId(globalId, callback) {
