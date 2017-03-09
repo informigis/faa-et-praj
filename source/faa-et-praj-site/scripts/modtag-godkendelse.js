@@ -11,8 +11,6 @@
 
     var borgerAbbUrl = "https://gis.kolding.dk/arcgis/rest/services/PublicAndreForvaltninger/Borger_Abonnement_test/FeatureServer/1";
 
-
-
     var borgerAbbFeatureLayer = new FeatureLayer(borgerAbbUrl, {});
 
     var globalId = QueryString.globalId;
