@@ -2,10 +2,35 @@
 <html>
 <head>
     <title>få et praj - modtag borger acceptmail</title>
+    <link rel="stylesheet" href="styles/faa_et_praj_modtag_godkendelse.css" />
+
     <meta charset="utf-8" />
 </head>
 <body>
-    <h1>Dit praj er nu aktivt</h1>
+    <h1>Få et praj emailgodkendelse</h1>
+    <div id="tilmelding-godkendt">
+        <h2>Dit praj er nu aktivt</h2>
+
+        <p>Vi har nu modtaget din godkendelse af tilmeldingen til Få et praj. </p>
+        <p>Du vil fremover modtage en mail fra os når der sker nyt i dit lokalområde. Du kan til enhver tid afmelde servicen ved at trykke på Afmeld i de mails du modtager fra os.</p>
+        <p>Med venlig hilsen</p>
+        <br/>
+        <p>
+            Kolding Kommune
+            By- og Udviklingsforvaltningen
+        </p>
+    </div>
+    <div id="tilmelding-fejlet">
+        <h2>Tilmeldingen til Få et praj fejlede</h2>
+        <p>Der er desværre opstået en fejl i forbindelse med din tilmelding til Få et praj.</p>
+        <p>Prøv at oprette dit praj igen. </p>
+        <p>Med venlig hilsen</p>
+        <br />
+        <p>
+            Kolding Kommune
+            By- og Udviklingsforvaltningen
+        </p>
+    </div>
     <script src="scripts/querystring_extract.js"></script>
     <script src="https://js.arcgis.com/3.19/"></script>
     <script src="scripts/modtag-godkendelse.js"></script>
