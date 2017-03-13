@@ -22,7 +22,7 @@
     function setEmailverificationStatus(results) {
         var objectId = results[0];
         var verified = 1;
-        var graphic = new Graphic(null, null, { "OBJECTID": objectId, "TELEFONUMMER": verified }, null);
+        var graphic = new Graphic(null, null, { "OBJECTID": objectId, "MAIL_GODKENDT": verified }, null);
         var praj = [graphic];
         borgerAbbFeatureLayer.applyEdits(null, praj, null, function (data) { console.log(data); document.getElementById("tilmelding-godkendt").style.display = "block" }, function (data) { console.error(data); error() });
     }
