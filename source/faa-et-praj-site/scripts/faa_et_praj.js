@@ -174,11 +174,11 @@
         function createRelatedInDbWithGlobalId(data) {
             var globalId = data.features[0].attributes.GlobalID;
             
-            var graphic1 = new Graphic(null, null, { "HOVEDKATEGORI": 1, "AKTIV": 1, "BOGERABBID": globalId }, null);
-            var graphic2 = new Graphic(null, null, { "HOVEDKATEGORI": 2, "AKTIV": 1, "BOGERABBID": globalId }, null);
-            var graphic3 = new Graphic(null, null, { "HOVEDKATEGORI": 3, "AKTIV": 1, "BOGERABBID": globalId }, null);
-            var graphic4 = new Graphic(null, null, { "HOVEDKATEGORI": 4, "AKTIV": 1, "BOGERABBID": globalId }, null);
-            var graphic5 = new Graphic(null, null, { "HOVEDKATEGORI": 6, "AKTIV": 1, "BOGERABBID": globalId }, null);
+            var graphic1 = new Graphic(null, null, { "KATEGORI": 1, "AKTIV": 1, "BOGERABBID": globalId }, null);
+            var graphic2 = new Graphic(null, null, { "KATEGORI": 2, "AKTIV": 1, "BOGERABBID": globalId }, null);
+            var graphic3 = new Graphic(null, null, { "KATEGORI": 3, "AKTIV": 1, "BOGERABBID": globalId }, null);
+            var graphic4 = new Graphic(null, null, { "KATEGORI": 4, "AKTIV": 1, "BOGERABBID": globalId }, null);
+            var graphic5 = new Graphic(null, null, { "KATEGORI": 6, "AKTIV": 1, "BOGERABBID": globalId }, null);
 
             var relatedTable = [graphic1, graphic2, graphic3, graphic4, graphic5];
             temaSagLayer.applyEdits(relatedTable, null, null, succesResult, failureResult);
