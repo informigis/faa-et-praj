@@ -53,9 +53,7 @@
             showAttribution: false
         });
 
-        var borgerAbbFeatureLayer = new FeatureLayer(borgerAbbUrl, {
-
-        });
+        var borgerAbbFeatureLayer = new FeatureLayer(borgerAbbUrl, {});
 
         var sagFeatureLayer = new FeatureLayer(sagUrl, {
             mode: FeatureLayer.MODE_ONDEMAND,
@@ -71,7 +69,6 @@
             new Color([255, 0, 0, 0.35]), 1),
             new Color([255, 0, 0, 0.35]));
         sagFeatureLayer.setSelectionSymbol(selectionSymbol);
-
 
         sagFeatureLayer.on("click", function (evt) {
             var idProperty = sagFeatureLayer.objectIdField;
@@ -173,14 +170,28 @@
 
         function createRelatedInDbWithGlobalId(data) {
             var globalId = data.features[0].attributes.GlobalID;
-            
-            var graphic1 = new Graphic(null, null, { "KATEGORI": 1, "AKTIV": 1, "BOGERABBID": globalId }, null);
-            var graphic2 = new Graphic(null, null, { "KATEGORI": 2, "AKTIV": 1, "BOGERABBID": globalId }, null);
-            var graphic3 = new Graphic(null, null, { "KATEGORI": 3, "AKTIV": 1, "BOGERABBID": globalId }, null);
-            var graphic4 = new Graphic(null, null, { "KATEGORI": 4, "AKTIV": 1, "BOGERABBID": globalId }, null);
-            var graphic5 = new Graphic(null, null, { "KATEGORI": 6, "AKTIV": 1, "BOGERABBID": globalId }, null);
+            var relatedTable = [];
+            if (document.getElementById("byggeri_og_bolig").checked) {
+                relatedTable.push(new Graphic(null, null, { "KATEGORI": 1, "AKTIV": 1, "BOGERABBID": globalId }, null));
+            }
+            if (document.getElementById("erhverv_byggeri").checked) {
+                relatedTable.push(new Graphic(null, null, { "KATEGORI": 2, "AKTIV": 1, "BOGERABBID": globalId }, null));
+            }
+            if (document.getElementById("planer_og_strategier").checked) {
+                relatedTable.push(new Graphic(null, null, { "KATEGORI": 3, "AKTIV": 1, "BOGERABBID": globalId }, null));
+            }
+            if (document.getElementById("veje_fortove_og_groenne_omraader").checked) {
+                relatedTable.push(new Graphic(null, null, { "KATEGORI": 4, "AKTIV": 1, "BOGERABBID": globalId }, null));
+            }
+            if (document.getElementById("miljoe_natur_og_klima").checked) {
+                relatedTable.push(new Graphic(null, null, { "KATEGORI": 6, "AKTIV": 1, "BOGERABBID": globalId }, null));
+            }
 
-            var relatedTable = [graphic1, graphic2, graphic3, graphic4, graphic5];
+            if (relatedTable.length === 0) {
+                setUserMessage("Der skal vælges mindst een kategori.");
+                return;
+            }
+
             temaSagLayer.applyEdits(relatedTable, null, null, succesResult, failureResult);
             setUserMessage("Praj oprettet.");
         }
@@ -197,11 +208,11 @@
             document.getElementById("prajLink").href = document.getElementById("prajLink").href + "&objectId=" + featureEditResult.objectId;
         }
 
-        function createPrajInDb(geometry, email, navn, telefonnummer) {
+        function createPrajInDb(geometry, email, navn, telefonnummer, callback) {
             var polygon = Polygon.fromExtent(geometry);
             var graphic = new Graphic(polygon, null, { "E_MAIL": email, "NAVN": navn, "TELEFONUMMER": telefonnummer }, null);
             var praj = [graphic];
-            borgerAbbFeatureLayer.applyEdits(praj, null, null, createRelatedInDb, function (data) { console.error(data); console.error("NOT_Deleted") });
+            borgerAbbFeatureLayer.applyEdits(praj, null, null, callback, function (data) { console.error(data); console.error("NOT_Deleted") });
 
         }
 
@@ -223,14 +234,12 @@
             queryTask.executeForIds(query, deleteRelatedInDbWithGlobalId2);
         }
 
-
-
-        function deletePrajInDb(objectId) {
+        function deletePrajInDb(objectId, callback) {
             var queryTask = new QueryTask(borgerAbbUrl);
             var query = new Query();
             query.objectIds = [objectId];
             query.outFields = ["GlobalID"];
-            queryTask.execute(query, deleteRelatedInDbWithGlobalId);
+            queryTask.execute(query, callback);
 
 
             var polygon = Polygon.fromExtent(map.extent);
@@ -239,15 +248,15 @@
             borgerAbbFeatureLayer.applyEdits(null, null, praj, function() { setUserMessage("Praj slettet.") });
         }
 
-        function updatePrajInDb(geometry, email, navn, telefonnummer, objectId) {
+        function updatePrajInDb(geometry, email, navn, telefonnummer, objectId, callback) {
             // just create a new and delete the old (for now at least). 
-            createPrajInDb(geometry, email, navn, telefonnummer);
-            deletePrajInDb(objectId);
+            createPrajInDb(geometry, email, navn, telefonnummer, callback);
+            deletePrajInDb(objectId, deleteRelatedInDbWithGlobalId);
         }
 
         function deletePraj() {
             var objectId = parseInt(document.getElementById("objectId").value);
-            deletePrajInDb(objectId);
+            deletePrajInDb(objectId, deleteRelatedInDbWithGlobalId);
 
             setUserMessage("Praj slettet.");
         }
@@ -265,7 +274,7 @@
             var ymax = extent.ymax;
             var spatialRefWkid = extent.spatialReference.wkid;
 
-            createPrajInDb(map.extent, email, name, phone);
+            createPrajInDb(map.extent, email, name, phone, createRelatedInDb);
             var spatrefUrl = "&xmin=" + xmin + "&ymin=" + ymin + "&xmax=" + xmax + "&ymax=" + ymax + "&spatialRefWkid=" + spatialRefWkid;
             var searchPartOfUrl = "?navn=" + name + "&email=" + email + "&mobileNumber=" + phone;
             var locationPathname = location.pathname;
@@ -286,7 +295,7 @@
 
             var objectId = parseInt(document.getElementById("objectId").value);
 
-            updatePrajInDb(map.extent, email, name, phone, objectId);
+            updatePrajInDb(map.extent, email, name, phone, objectId, createRelatedInDb);
             setUserMessage("Praj opdateret.");
         }
 

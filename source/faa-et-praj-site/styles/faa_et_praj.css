@@ -30,7 +30,7 @@ body {
 }
 
 #categories {
-    display: none;
+    /*display: none;*/
 }
 
 form, input, label {
