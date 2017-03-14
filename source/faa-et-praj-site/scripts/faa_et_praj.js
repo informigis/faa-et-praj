@@ -207,20 +207,23 @@
         function convertGlobalId2ObjectId(globalId, layerUrl, callback) { //returns an array with one (or zero) objectId.
             var queryTask = new QueryTask(layerUrl);
             var query = new Query();
-            query.where = "'GlobalId' = " + globalId + "'";
+            query.where = "GlobalId='" + globalId + "'";
             queryTask.executeForIds(query, callback);
         }
 
         function createRelatedInDb(featureEditResults) {
-            var featureEditResult = featureEditResults[0];
-            var queryTask = new QueryTask(borgerAbbUrl);
-            var query = new Query();
-            query.objectIds = [featureEditResult.objectId];
-            query.outFields = ["GlobalID"];
-            queryTask.execute(query, createRelatedInDbWithGlobalId);
+            var objectId = featureEditResults[0].objectId;
+            convertObjectId2GlobalId(objectId, borgerAbbUrl, createRelatedInDbWithGlobalId);
+
+            //var featureEditResult = featureEditResults[0];
+            //var queryTask = new QueryTask(borgerAbbUrl);
+            //var query = new Query();
+            //query.objectIds = [featureEditResult.objectId];
+            //query.outFields = ["GlobalID"];
+            //queryTask.execute(query, createRelatedInDbWithGlobalId);
 
             // Hack: 
-            document.getElementById("prajLink").href = document.getElementById("prajLink").href + "&objectId=" + featureEditResult.objectId;
+            document.getElementById("prajLink").href = document.getElementById("prajLink").href + "&objectId=" + objectId;
         }
 
         function createPrajInDb(geometry, email, navn, telefonnummer, callback) {
@@ -243,10 +246,12 @@
         function deleteRelatedInDbWithGlobalId(data)
         {
             var globalId = data.features[0].attributes.GlobalID;
-            var queryTask = new QueryTask(temaSagUrl);
-            var query = new Query();
-            query.where = "GlobalID='" + globalId + "'";
-            queryTask.executeForIds(query, deleteRelatedInDbWithGlobalId2);
+            convertGlobalId2ObjectId(globalId, temaSagUrl, deleteRelatedInDbWithGlobalId2);
+
+            //var queryTask = new QueryTask(temaSagUrl);
+            //var query = new Query();
+            //query.where = "GlobalID='" + globalId + "'";
+            //queryTask.executeForIds(query, deleteRelatedInDbWithGlobalId2);
         }
 
         function deletePrajInDb(objectId, callback) {
