@@ -196,6 +196,21 @@
             setUserMessage("Praj oprettet.");
         }
 
+        function convertObjectId2GlobalId(objectId, layerUrl, callback) { //returns a FeatureSet (sjeesh).
+            var queryTask = new QueryTask(layerUrl);
+            var query = new Query();
+            query.objectIds = [objectId];
+            query.outFields = ["GlobalID"];
+            queryTask.execute(query, callback);
+        }
+
+        function convertGlobalId2ObjectId(globalId, layerUrl, callback) { //returns an array with one (or zero) objectId.
+            var queryTask = new QueryTask(layerUrl);
+            var query = new Query();
+            query.where = "'GlobalId' = " + globalId + "'";
+            queryTask.executeForIds(query, callback);
+        }
+
         function createRelatedInDb(featureEditResults) {
             var featureEditResult = featureEditResults[0];
             var queryTask = new QueryTask(borgerAbbUrl);
