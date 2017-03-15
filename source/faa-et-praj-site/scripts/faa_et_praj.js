@@ -215,13 +215,6 @@
             var objectId = featureEditResults[0].objectId;
             convertObjectId2GlobalId(objectId, borgerAbbUrl, createRelatedInDbWithGlobalId);
 
-            //var featureEditResult = featureEditResults[0];
-            //var queryTask = new QueryTask(borgerAbbUrl);
-            //var query = new Query();
-            //query.objectIds = [featureEditResult.objectId];
-            //query.outFields = ["GlobalID"];
-            //queryTask.execute(query, createRelatedInDbWithGlobalId);
-
             // Hack: 
             document.getElementById("prajLink").href = document.getElementById("prajLink").href + "&objectId=" + objectId;
         }
@@ -247,14 +240,10 @@
         {
             var globalId = data.features[0].attributes.GlobalID;
             convertGlobalId2ObjectId(globalId, temaSagUrl, deleteRelatedInDbWithGlobalId2);
-
-            //var queryTask = new QueryTask(temaSagUrl);
-            //var query = new Query();
-            //query.where = "GlobalID='" + globalId + "'";
-            //queryTask.executeForIds(query, deleteRelatedInDbWithGlobalId2);
         }
 
         function deletePrajInDb(objectId, callback) {
+
             var queryTask = new QueryTask(borgerAbbUrl);
             var query = new Query();
             query.objectIds = [objectId];
