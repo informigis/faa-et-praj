@@ -243,14 +243,8 @@
         }
 
         function deletePrajInDb(objectId, callback) {
-
-            var queryTask = new QueryTask(borgerAbbUrl);
-            var query = new Query();
-            query.objectIds = [objectId];
-            query.outFields = ["GlobalID"];
-            queryTask.execute(query, callback);
-
-
+            convertObjectId2GlobalId(objectId, borgerAbbUrl, callback);
+            
             var polygon = Polygon.fromExtent(map.extent);
             var graphic = new Graphic(polygon, null, { "OBJECTID": objectId }, null);
             var praj = [graphic];
