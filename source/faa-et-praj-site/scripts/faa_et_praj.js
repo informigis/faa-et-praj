@@ -168,8 +168,13 @@
             console.error(data);
         }
 
-        function createRelatedInDbWithGlobalId(data) {
-            var globalId = data.features[0].attributes.GlobalID;
+        function setGlobalIdInHtml(globalId, callback) {
+            // Hack: 
+            document.getElementById("prajLink").href = document.getElementById("prajLink").href + "&objectId=" + globalId;
+            callback(globalId);
+        }
+
+        function setRelatedCategories(globalId) {
             var relatedTable = [];
             if (document.getElementById("byggeri_og_bolig").checked) {
                 relatedTable.push(new Graphic(null, null, { "KATEGORI": 1, "AKTIV": 1, "BOGERABBID": globalId }, null));
@@ -196,6 +201,11 @@
             setUserMessage("Praj oprettet.");
         }
 
+        function createRelatedInDbWithGlobalId(data) {
+            var globalId = data.features[0].attributes.GlobalID;
+            setGlobalIdInHtml(globalId, setRelatedCategories);
+        }
+
         function convertObjectId2GlobalId(objectId, layerUrl, callback) { //returns a FeatureSet (sjeesh).
             var queryTask = new QueryTask(layerUrl);
             var query = new Query();
@@ -211,12 +221,10 @@
             queryTask.executeForIds(query, callback);
         }
 
+
         function createRelatedInDb(featureEditResults) {
             var objectId = featureEditResults[0].objectId;
             convertObjectId2GlobalId(objectId, borgerAbbUrl, createRelatedInDbWithGlobalId);
-
-            // Hack: 
-            document.getElementById("prajLink").href = document.getElementById("prajLink").href + "&objectId=" + objectId;
         }
 
         function createPrajInDb(geometry, email, navn, telefonnummer, callback) {
@@ -251,14 +259,14 @@
             borgerAbbFeatureLayer.applyEdits(null, null, praj, function() { setUserMessage("Praj slettet.") });
         }
 
-        function updatePrajInDb(geometry, email, navn, telefonnummer, objectId, callback) {
+        function updatePrajInDb(geometry, email, navn, telefonnummer, objectId, callback) { 
             // just create a new and delete the old (for now at least). 
             createPrajInDb(geometry, email, navn, telefonnummer, callback);
             deletePrajInDb(objectId, deleteRelatedInDbWithGlobalId);
         }
 
         function deletePraj() {
-            var objectId = parseInt(document.getElementById("objectId").value);
+            var objectId = document.getElementById("objectId").value;
             deletePrajInDb(objectId, deleteRelatedInDbWithGlobalId);
 
             setUserMessage("Praj slettet.");
@@ -296,7 +304,7 @@
             var email = document.getElementById("email").value;
             var phone = document.getElementById("phone").value;
 
-            var objectId = parseInt(document.getElementById("objectId").value);
+            var objectId = document.getElementById("objectId").value;
 
             updatePrajInDb(map.extent, email, name, phone, objectId, createRelatedInDb);
             setUserMessage("Praj opdateret.");
