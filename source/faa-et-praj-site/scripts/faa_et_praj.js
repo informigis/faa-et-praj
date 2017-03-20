@@ -134,6 +134,7 @@
         updateElementValue("email", QueryString.email);
         updateElementValue("phone", QueryString.mobileNumber);
         updateElementValue("objectId", QueryString.objectId);
+        updateElementValue("globalId", QueryString.globalId);
 
         if (QueryString.email && QueryString.mobileNumber) {
             document.getElementById("deletePraj").style.display = "block";
@@ -160,12 +161,12 @@
             }
         }
 
-        function succesResult(data) {
-            console.info(data);
+        function succesResult(featureSet) {
+            console.info(featureSet);
         }
 
-        function failureResult(data) {
-            console.error(data);
+        function failureResult(error) {
+            console.error(error);
         }
 
         function setGlobalIdInHtml(globalId, callback) {
@@ -201,8 +202,8 @@
             setUserMessage("Praj oprettet.");
         }
 
-        function createRelatedInDbWithGlobalId(data) {
-            var globalId = data.features[0].attributes.GlobalID;
+        function createRelatedInDbWithGlobalId(featureSet) {
+            var globalId = featureSet.features[0].attributes.GlobalID;
             setGlobalIdInHtml(globalId, setRelatedCategories);
         }
 
@@ -231,7 +232,7 @@
             var polygon = Polygon.fromExtent(geometry);
             var graphic = new Graphic(polygon, null, { "E_MAIL": email, "NAVN": navn, "TELEFONUMMER": telefonnummer }, null);
             var praj = [graphic];
-            borgerAbbFeatureLayer.applyEdits(praj, null, null, callback, function (data) { console.error(data); console.error("NOT_Deleted") });
+            borgerAbbFeatureLayer.applyEdits(praj, null, null, callback, function (featureEditResults) { console.error(featureEditResults); console.error("NOT_Deleted") });
 
         }
 
@@ -241,7 +242,7 @@
                 graphics.push(new Graphic(null, null, { "OBJECTID": id }));
             }
 
-            temaSagLayer.applyEdits(null, null, graphics, function (data) { console.info(data); console.info("relatedDeleted") }, function (data) { console.error(data); console.error("related_NOT_Deleted") });
+            temaSagLayer.applyEdits(null, null, graphics, function (featureEditResults) { console.info(featureEditResults); console.info("relatedDeleted") }, function (error) { console.error(error); console.error("related_NOT_Deleted") });
         }
 
         function deleteRelatedInDbWithGlobalId(data)
@@ -265,11 +266,35 @@
             deletePrajInDb(objectId, deleteRelatedInDbWithGlobalId);
         }
 
-        function deletePraj() {
-            var objectId = document.getElementById("objectId").value;
-            deletePrajInDb(objectId, deleteRelatedInDbWithGlobalId);
+        function deleteObjects(objectIds /*array of objectIds*/, featureLayer) {
+            var graphics = [];
+            for (var id = 0; id < objectIds.length; id++) {
+                var objectId = objectIds[id];
+                graphics.push(new Graphic(null, null, { "OBJECTID": objectId }));
+            }
 
-            setUserMessage("Praj slettet.");
+            featureLayer.applyEdits(null, null, graphics, function (featureEditResults) { console.info(featureEditResults); console.info("object(s) deleted.") }, function (error) { console.error(error); console.error("related_NOT_Deleted") });
+        }
+
+        function deleteBorgerAbb(objectIds) {
+            deleteObjects(objectIds, borgerAbbFeatureLayer);
+        }
+
+        function deleteTemaSag(objectIds) {
+            deleteObjects(objectIds, temaSagLayer);
+        }
+
+        function internalDeletePraj(globalId) {
+            convertGlobalId2ObjectId(globalId, borgerAbbUrl, deleteBorgerAbb);
+        }
+
+        function deletePraj() {
+            internalDeletePraj(document.getElementById("globalId").value);
+
+            //var objectId = document.getElementById("objectId").value;
+            //deletePrajInDb(objectId, deleteRelatedInDbWithGlobalId);
+            //
+            //setUserMessage("Praj slettet.");
         }
 
         function createPraj() {
