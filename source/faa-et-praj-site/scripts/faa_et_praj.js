@@ -46,9 +46,9 @@
 
         var map = new Map("viewDiv", {
             basemap: "gray",
-            container: "viewDiv",  
-            zoom: 12,  
-            center: [9.47, 55.5],  
+            container: "viewDiv",
+            zoom: 12,
+            center: [9.47, 55.5],
             logo: false,
             showAttribution: false
         });
@@ -198,8 +198,11 @@
                 return;
             }
 
-            temaSagLayer.applyEdits(relatedTable, null, null, succesResult, failureResult);
-            setUserMessage("Praj oprettet.");
+            temaSagLayer.applyEdits(relatedTable, null, null, function (featureSet) {
+                succesResult(featureSet);
+                setUserMessage("Praj oprettet.");
+            }, function (error) { console.error(error) });
+            ;
         }
 
         function createRelatedInDbWithGlobalId(featureSet) {
@@ -245,35 +248,41 @@
             temaSagLayer.applyEdits(null, null, graphics, function (featureEditResults) { console.info(featureEditResults); console.info("relatedDeleted") }, function (error) { console.error(error); console.error("related_NOT_Deleted") });
         }
 
-        function deleteRelatedInDbWithGlobalId(data)
-        {
+        function deleteRelatedInDbWithGlobalId(data) {
             var globalId = data.features[0].attributes.GlobalID;
             convertGlobalId2ObjectId(globalId, temaSagUrl, deleteRelatedInDbWithGlobalId2);
         }
 
         function deletePrajInDb(objectId, callback) {
             convertObjectId2GlobalId(objectId, borgerAbbUrl, callback);
-            
+
             var polygon = Polygon.fromExtent(map.extent);
             var graphic = new Graphic(polygon, null, { "OBJECTID": objectId }, null);
             var praj = [graphic];
-            borgerAbbFeatureLayer.applyEdits(null, null, praj, function() { setUserMessage("Praj slettet.") });
-        }
-
-        function updatePrajInDb(geometry, email, navn, telefonnummer, objectId, callback) { 
-            // just create a new and delete the old (for now at least). 
-            createPrajInDb(geometry, email, navn, telefonnummer, callback);
-            deletePrajInDb(objectId, deleteRelatedInDbWithGlobalId);
+            borgerAbbFeatureLayer.applyEdits(null, null, praj, function () { setUserMessage("Praj slettet.") });
         }
 
         function deleteObjects(objectIds /*array of objectIds*/, featureLayer) {
             var graphics = [];
-            for (var id = 0; id < objectIds.length; id++) {
-                var objectId = objectIds[id];
-                graphics.push(new Graphic(null, null, { "OBJECTID": objectId }));
+            if (objectIds) {
+                for (var id = 0; id < objectIds.length; id++) {
+                    var objectId = objectIds[id];
+                    graphics.push(new Graphic(null, null, { "OBJECTID": objectId }));
+                }
+            } else {
+                setUserMessage("enten allerede slettet eller ");
             }
 
-            featureLayer.applyEdits(null, null, graphics, function (featureEditResults) { console.info(featureEditResults); console.info("object(s) deleted.") }, function (error) { console.error(error); console.error("related_NOT_Deleted") });
+            // The following deletes both the borgerAbb and its related objects. 
+            featureLayer.applyEdits(null, null, graphics, function (featureEditResults) {
+                console.info(featureEditResults);
+                console.info("object(s) deleted.");
+                setUserMessage("Praj slettet.");
+            }, function (error) {
+                console.error(error);
+                console.error("related_NOT_Deleted");
+                setUserMessage("Sletningen fejlede. Prøv evt. igen.");
+            });
         }
 
         function deleteBorgerAbb(objectIds) {
@@ -286,6 +295,12 @@
 
         function internalDeletePraj(globalId) {
             convertGlobalId2ObjectId(globalId, borgerAbbUrl, deleteBorgerAbb);
+        }
+
+        function updatePrajInDb(geometry, email, navn, telefonnummer, objectId, callback) {
+            // just create a new and delete the old (for now at least). 
+            createPrajInDb(geometry, email, navn, telefonnummer, callback);
+            deleteBorgerAbb(objectId);
         }
 
         function deletePraj() {
@@ -324,15 +339,23 @@
             setUserMessage("Praj oprettet.");
         }
 
+        function internalUpdatePraj(globalId, name, email, phone, aioExtent) {
+            convertGlobalId2ObjectId(globalId, borgerAbbUrl, deleteBorgerAbb);
+            createPraj();
+        }
+
         function updatePraj() {
             var name = document.getElementById("name").value;
             var email = document.getElementById("email").value;
             var phone = document.getElementById("phone").value;
 
             var objectId = document.getElementById("objectId").value;
+            var globalId = document.getElementById("globalId").value;
 
-            updatePrajInDb(map.extent, email, name, phone, objectId, createRelatedInDb);
-            setUserMessage("Praj opdateret.");
+            //updatePrajInDb(map.extent, email, name, phone, objectId, createRelatedInDb);
+            //setUserMessage("Praj opdateret.");
+
+            internalUpdatePraj(globalId, name, email, phone, map.extent, setUserMessage);
         }
 
 
