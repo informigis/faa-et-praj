@@ -25,7 +25,7 @@ body {
     left: 0px;
 }
 
-#deletePraj, #updatePraj, #borgerAbbSection, #emailToUser, #objectId, #objectIdLabel{
+#deletePraj, #updatePraj, #borgerAbbSection, #emailToUser, #objectId, #objectIdLabel, #globalId, #globalIdLabel{
     display: none;
 }
 
