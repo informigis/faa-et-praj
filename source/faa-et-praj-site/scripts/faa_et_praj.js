@@ -170,7 +170,7 @@
 
         function setGlobalIdInHtml(globalId, callback) {
             // Hack: 
-            document.getElementById("prajLink").href = document.getElementById("prajLink").href + "&objectId=" + globalId;
+            document.getElementById("prajLink").href = document.getElementById("prajLink").href + "&globalId=" + globalId;
             callback(globalId);
         }
 
