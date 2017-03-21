@@ -161,14 +161,6 @@
             }
         }
 
-        function succesResult(featureSet) {
-            console.info(featureSet);
-        }
-
-        function failureResult(error) {
-            console.error(error);
-        }
-
         function setGlobalIdInHtml(globalId, callback) {
             // Hack: 
             document.getElementById("prajLink").href = document.getElementById("prajLink").href + "&globalId=" + globalId;
@@ -199,7 +191,7 @@
             }
 
             temaSagLayer.applyEdits(relatedTable, null, null, function (featureSet) {
-                succesResult(featureSet);
+                console.info(featureSet);
                 setUserMessage("Praj oprettet.");
             }, function (error) { console.error(error) });
             ;
@@ -239,29 +231,6 @@
 
         }
 
-        function deleteRelatedInDbWithGlobalId2(data) {
-            var graphics = [];
-            for (var id = 0; id < data; id++) {
-                graphics.push(new Graphic(null, null, { "OBJECTID": id }));
-            }
-
-            temaSagLayer.applyEdits(null, null, graphics, function (featureEditResults) { console.info(featureEditResults); console.info("relatedDeleted") }, function (error) { console.error(error); console.error("related_NOT_Deleted") });
-        }
-
-        function deleteRelatedInDbWithGlobalId(data) {
-            var globalId = data.features[0].attributes.GlobalID;
-            convertGlobalId2ObjectId(globalId, temaSagUrl, deleteRelatedInDbWithGlobalId2);
-        }
-
-        function deletePrajInDb(objectId, callback) {
-            convertObjectId2GlobalId(objectId, borgerAbbUrl, callback);
-
-            var polygon = Polygon.fromExtent(map.extent);
-            var graphic = new Graphic(polygon, null, { "OBJECTID": objectId }, null);
-            var praj = [graphic];
-            borgerAbbFeatureLayer.applyEdits(null, null, praj, function () { setUserMessage("Praj slettet.") });
-        }
-
         function deleteObjects(objectIds /*array of objectIds*/, featureLayer) {
             var graphics = [];
             if (objectIds) {
@@ -289,18 +258,8 @@
             deleteObjects(objectIds, borgerAbbFeatureLayer);
         }
 
-        function deleteTemaSag(objectIds) {
-            deleteObjects(objectIds, temaSagLayer);
-        }
-
         function internalDeletePraj(globalId) {
             convertGlobalId2ObjectId(globalId, borgerAbbUrl, deleteBorgerAbb);
-        }
-
-        function updatePrajInDb(geometry, email, navn, telefonnummer, objectId, callback) {
-            // just create a new and delete the old (for now at least). 
-            createPrajInDb(geometry, email, navn, telefonnummer, callback);
-            deleteBorgerAbb(objectId);
         }
 
         function deletePraj() {
