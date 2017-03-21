@@ -264,11 +264,10 @@
 
         function deletePraj() {
             internalDeletePraj(document.getElementById("globalId").value);
+        }
 
-            //var objectId = document.getElementById("objectId").value;
-            //deletePrajInDb(objectId, deleteRelatedInDbWithGlobalId);
-            //
-            //setUserMessage("Praj slettet.");
+        function internalCreatePraj() {
+
         }
 
         function createPraj() {
@@ -294,27 +293,17 @@
             var refUrl = window.location.protocol + "//" + window.location.host + locationPathname + searchPartOfUrl + spatrefUrl;
             document.getElementById("prajLink").text = "Lav om på dit praj ved at klikke her.";
             document.getElementById("prajLink").href = encodeURI(refUrl);
-            // Update message
-            setUserMessage("Praj oprettet.");
         }
 
-        function internalUpdatePraj(globalId, name, email, phone, aioExtent) {
+        function internalUpdatePraj(globalId) {
             convertGlobalId2ObjectId(globalId, borgerAbbUrl, deleteBorgerAbb);
             createPraj();
         }
 
         function updatePraj() {
-            var name = document.getElementById("name").value;
-            var email = document.getElementById("email").value;
-            var phone = document.getElementById("phone").value;
-
-            var objectId = document.getElementById("objectId").value;
             var globalId = document.getElementById("globalId").value;
 
-            //updatePrajInDb(map.extent, email, name, phone, objectId, createRelatedInDb);
-            //setUserMessage("Praj opdateret.");
-
-            internalUpdatePraj(globalId, name, email, phone, map.extent, setUserMessage);
+            internalUpdatePraj(globalId);
         }
 
 
