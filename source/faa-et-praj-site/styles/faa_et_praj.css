@@ -25,7 +25,7 @@ body {
     left: 0px;
 }
 
-#deletePraj, #updatePraj, #borgerAbbSection, #emailToUser, #objectId, #objectIdLabel, #globalId, #globalIdLabel{
+#deletePraj, #updatePraj, #borgerAbbSection, #emailToUser, #objectId, #objectIdLabel, #globalId, #globalIdLabel {
     display: none;
 }
 
@@ -39,7 +39,7 @@ form, input, label {
 }
 
     input[type=checkbox] {
-        /*display: none;*/
+        display: none;
     }
 
         input[type=checkbox] + label {

@@ -266,10 +266,6 @@
             internalDeletePraj(document.getElementById("globalId").value);
         }
 
-        function internalCreatePraj() {
-
-        }
-
         function setPrajUrl(name, email, phone) {
             // get map extent
             var extent = map.extent;
