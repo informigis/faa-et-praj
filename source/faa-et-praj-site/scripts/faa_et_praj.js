@@ -270,11 +270,7 @@
 
         }
 
-        function createPraj() {
-            // get data 
-            var name = document.getElementById("name").value;
-            var email = document.getElementById("email").value;
-            var phone = document.getElementById("phone").value;
+        function setPrajUrl(name, email, phone) {
             // get map extent
             var extent = map.extent;
             var xmin = extent.xmin;
@@ -283,7 +279,6 @@
             var ymax = extent.ymax;
             var spatialRefWkid = extent.spatialReference.wkid;
 
-            createPrajInDb(map.extent, email, name, phone, createRelatedInDb);
             var spatrefUrl = "&xmin=" + xmin + "&ymin=" + ymin + "&xmax=" + xmax + "&ymax=" + ymax + "&spatialRefWkid=" + spatialRefWkid;
             var searchPartOfUrl = "?navn=" + name + "&email=" + email + "&mobileNumber=" + phone;
             var locationPathname = location.pathname;
@@ -293,6 +288,17 @@
             var refUrl = window.location.protocol + "//" + window.location.host + locationPathname + searchPartOfUrl + spatrefUrl;
             document.getElementById("prajLink").text = "Lav om på dit praj ved at klikke her.";
             document.getElementById("prajLink").href = encodeURI(refUrl);
+        }
+
+        function createPraj() {
+            // get data 
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var phone = document.getElementById("phone").value;
+
+            createPrajInDb(map.extent, email, name, phone, createRelatedInDb);
+            setPrajUrl(name, email, phone);
+
         }
 
         function internalUpdatePraj(globalId) {
