@@ -266,7 +266,7 @@
             internalDeletePraj(document.getElementById("globalId").value);
         }
 
-        function setPrajUrl(name, email, phone) {
+        function setPrajUrl(name, email, phone, byggeri_og_bolig, erhverv_byggeri, planer_og_strategier, veje_fortove_og_groenne_omraader, miljoe_natur_og_klima) {
             // get map extent
             var extent = map.extent;
             var xmin = extent.xmin;
@@ -275,8 +275,9 @@
             var ymax = extent.ymax;
             var spatialRefWkid = extent.spatialReference.wkid;
 
+
             var spatrefUrl = "&xmin=" + xmin + "&ymin=" + ymin + "&xmax=" + xmax + "&ymax=" + ymax + "&spatialRefWkid=" + spatialRefWkid;
-            var searchPartOfUrl = "?navn=" + name + "&email=" + email + "&mobileNumber=" + phone;
+            var searchPartOfUrl = "?navn=" + name + "&email=" + email + "&mobileNumber=" + phone + "&byggeri_og_bolig=" + byggeri_og_bolig + "&erhverv_byggeri=" + erhverv_byggeri + "&planer_og_strategier=" + planer_og_strategier + "&veje_fortove_og_groenne_omraader=" + veje_fortove_og_groenne_omraader + "&miljoe_natur_og_klima=" + miljoe_natur_og_klima;
             var locationPathname = location.pathname;
             if (QueryString.parentContainer) {
                 locationPathname = QueryString.parentContainer;
@@ -292,8 +293,20 @@
             var email = document.getElementById("email").value;
             var phone = document.getElementById("phone").value;
 
+
+            var byggeri_og_bolig = document.getElementById("byggeri_og_bolig").checked;
+            var erhverv_byggeri = document.getElementById("erhverv_byggeri").checked;
+            var planer_og_strategier = document.getElementById("planer_og_strategier").checked;
+            var veje_fortove_og_groenne_omraader = document.getElementById("veje_fortove_og_groenne_omraader").checked;
+            var miljoe_natur_og_klima = document.getElementById("miljoe_natur_og_klima").checked;
+
+            if (!(byggeri_og_bolig || erhverv_byggeri || planer_og_strategier || veje_fortove_og_groenne_omraader || miljoe_natur_og_klima)) {
+                alert("Der skal vælges mindst en kategori.");
+                return;
+            }
+
             createPrajInDb(map.extent, email, name, phone, createRelatedInDb);
-            setPrajUrl(name, email, phone);
+            setPrajUrl(name, email, phone, byggeri_og_bolig, erhverv_byggeri, planer_og_strategier, veje_fortove_og_groenne_omraader, miljoe_natur_og_klima);
 
         }
 
