@@ -321,6 +321,10 @@
             internalUpdatePraj(globalId);
         }
 
+        function viewAllOnMap(event) {
+            var fullMunicipalExtent = Extent(1004256.2088660244, 7413974.232959419, 1103624.3456367915, 7490411.261244624, new SpatialReference(102100));
+            map.setExtent(fullMunicipalExtent);
+        }
 
         addListener("deletePraj", deletePraj, "click");
         //on(document.getElementById("deletePraj"), "click", deletePraj);
@@ -329,5 +333,7 @@
         addListener("updatePraj", updatePraj, "click");
         //        on(document.getElementById("createPraj"), "click", createPraj);
         on(map, "extent-change", whenExtentChanges);
+        var zoomToAll = dom.byId("zoomToMunicipal");
+        on(zoomToAll, "click", viewAllOnMap);
     });
 });
