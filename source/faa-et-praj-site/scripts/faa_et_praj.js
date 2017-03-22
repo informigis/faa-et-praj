@@ -111,7 +111,7 @@
         }
 
         function createHtmlLinkToAttachment(url, name) {
-            return "<a href='#' onclick='window.open(" + '"' + url + '"' + ");' target='_blank'>" + name + "</a><br />";
+            return "<a href='#' onclick='window.open(" + '"' + url + '"' + ");' >" + name + "</a><br />";
         }
 
         function presentAttachments(attachments) {
