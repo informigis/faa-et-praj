@@ -28,7 +28,7 @@ body {
 }
 
 
-#deletePraj, #updatePraj, #borgerAbbSection, #objectId, #objectIdLabel, #globalId, #globalIdLabel {
+#deletePraj, #updatePraj, #objectId, #objectIdLabel, #globalId, #globalIdLabel {
     display: none;
 }
 

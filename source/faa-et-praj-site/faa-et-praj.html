@@ -7,18 +7,18 @@
     <link rel="stylesheet" href="https://js.arcgis.com/3.19/dijit/themes/claro/claro.css">
     <link rel="stylesheet" href="https://js.arcgis.com/3.19/esri/css/esri.css">
     <link rel="stylesheet" href="styles/faa_et_praj.css" />
-    <script>
-        function showHideAbbSection(isChecked) {
-            var element = document.getElementById("borgerAbbSection");
-            var element2 = document.getElementById("featureTableContainer");
-            if (isChecked) {
-                element.style.display = 'block';
-                element2.style.display = 'none';
-            } else {
-                element.style.display = 'none';
-                element2.style.display = 'block';
-            }
-        }</script>
+    <!--    <script>
+            function showHideAbbSection(isChecked) {
+                var element = document.getElementById("borgerAbbSection");
+                var element2 = document.getElementById("featureTableContainer");
+                if (isChecked) {
+                    element.style.display = 'block';
+                    element2.style.display = 'none';
+                } else {
+                    element.style.display = 'none';
+                    element2.style.display = 'block';
+                }
+            }</script>-->
 </head>
 <body class="esri">
     <p>Her på siden kan du få et overblik over alle aktuelle høringer og afgørelser i Kolding Kommune og tilmelde dig vores Få et praj service.</p>
@@ -34,6 +34,10 @@
         <button type="button" id="zoomToMunicipal">Se alle</button>
         <div id="search"></div>
     </section>
+    <div id="featureTableContainer" class="claro esri" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline', gutters: false">
+        <h2>Detaljerede oplysninger – Afgørelser og høringer</h2>
+        <div id="myTableNode"></div>
+    </div>
     <section id="categories">
         <h2>kategorier</h2>
         <div>
@@ -49,10 +53,7 @@
             <label for="miljoe_natur_og_klima">Miljø, natur og klima</label>
         </div>
     </section>
-    <div id="featureTableContainer" class="claro esri" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline', gutters: false">
-        <h2>Detaljerede oplysninger – Afgørelser og høringer</h2>
-        <div id="myTableNode"></div>
-    </div>
+
     <h1>Få et praj – Når der sker noget nyt</h1>
     <p>Få et praj er en service, hvor du automatisk får besked, når der er nye høringer og afgørelser i det område, du vælger ud på kortet. </p>
     <br />
