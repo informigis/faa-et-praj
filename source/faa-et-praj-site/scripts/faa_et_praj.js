@@ -124,7 +124,7 @@
                 /*window.open(attachments[i].url);*/
             }
             var myDialog = new Dialog({
-                title: "My Dialog",
+                title: "Høring/Afgørelse",
                 content: content,
                 style: "width: 300px"
             });
