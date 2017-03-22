@@ -29,14 +29,16 @@
     <br />
     <p>Nedenunder kortet kan du se de aktuelle sager i en listevisning, hvor du også kan se finde detaljer om sagen. </p>
     <br />
-    <section>
-        <div id="viewDiv"></div>
-        <button type="button" id="zoomToMunicipal">Se alle</button>
-        <div id="search"></div>
-    </section>
-    <div id="featureTableContainer" class="claro esri" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline', gutters: false">
-        <h2>Detaljerede oplysninger – Afgørelser og høringer</h2>
-        <div id="myTableNode"></div>
+    <div id="mapAndTableContainer">
+        <section id="mapContainer">
+            <div id="viewDiv"></div>
+            <button type="button" id="zoomToMunicipal">Se alle</button>
+            <div id="search"></div>
+        </section>
+        <div id="featureTableContainer" class="claro esri" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline', gutters: false">
+            <h2>Detaljerede oplysninger – Afgørelser og høringer</h2>
+            <div id="myTableNode"></div>
+        </div>
     </div>
     <section id="categories">
         <h2>kategorier</h2>
