@@ -126,7 +126,7 @@
             var myDialog = new Dialog({
                 title: "Høring/Afgørelse",
                 content: content,
-                style: "width: 300px"
+                style: "width: 500px"
             });
             myDialog.show();
         }

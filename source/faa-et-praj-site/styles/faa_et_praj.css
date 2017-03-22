@@ -20,10 +20,10 @@ body {
 }
 
 #featureTableContainer {
-    padding: 0;
+    padding-bottom: 200px !important;
     margin: 0;
-    height: 400px;
-    width: 350px;
+    height: 443px;
+    width: 250px;
     /*flex: 1;*/
 }
 
