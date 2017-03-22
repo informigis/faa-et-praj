@@ -22,9 +22,10 @@
   "esri/graphic",
   "esri/symbols/SimpleMarkerSymbol",
   "esri/InfoTemplate",
-  "esri/geometry/Polygon"
+  "esri/geometry/Polygon",
+  "dijit/Dialog"
   //"dojo/domReady!"
-], function (esriConfig, Map, Search, WMSLayer, FeatureLayer, FeatureTable, WMTSLayer, SpatialReference, Extent, Query, QueryTask, dom, on, domConstruct, arrayUtil, parser, ready, SimpleFillSymbol, SimpleLineSymbol, Color, Graphic, SimpleMarkerSymbol, InfoTemplate, Polygon) {
+], function (esriConfig, Map, Search, WMSLayer, FeatureLayer, FeatureTable, WMTSLayer, SpatialReference, Extent, Query, QueryTask, dom, on, domConstruct, arrayUtil, parser, ready, SimpleFillSymbol, SimpleLineSymbol, Color, Graphic, SimpleMarkerSymbol, InfoTemplate, Polygon, Dialog) {
     esriConfig.defaults.io.corsEnabledServers.push("https://gis.kolding.dk");
     esriConfig.defaults.io.corsEnabledServers.push("https://informigis.github.io");
 
@@ -93,11 +94,12 @@
             showGridMenu: false,
             hiddenFields: ["OBJECTID"],
             showFeatureCount: false,
-            showAttachments: true,
+            showAttachments: false,
             showColumnHeaderTooltips: false,
             zoomToSelection: false,
             showGridHeader: false,
-            syncSelection: true
+            syncSelection: true,
+            fieldInfos: [{ name: "TITEL", alias: "Høring/afgørelse" }]
         }, "myTableNode");
 
         function updatefeatureTable(featureSet) {
@@ -107,6 +109,35 @@
             }
             myTable.filterRecordsByIds(data);
         }
+
+        function createHtmlLinkToAttachment(url, name) {
+            return "<a href='#' onclick='window.open(" + '"' + url + '"' + ");' target='_blank'>" + name + "</a><br />";
+        }
+
+        function presentAttachments(attachments) {
+            var content = "";
+            for (var i = 0; i < attachments.length; i++) {
+                console.log(attachments[i]);
+                var url = attachments[i].url;
+                var name = attachments[i].name;
+                content = content + createHtmlLinkToAttachment(url, name);
+                /*window.open(attachments[i].url);*/
+            }
+            var myDialog = new Dialog({
+                title: "My Dialog",
+                content: content,
+                style: "width: 300px"
+            });
+            myDialog.show();
+        }
+
+        myTable.on("row-select", function (evt) {
+            console.log("select event - ", evt.rows[0].data);
+            var objectId = evt.rows[0].data.OBJECTID;
+            sagFeatureLayer.queryAttachmentInfos(objectId, presentAttachments, function (error) { console.error(error) });
+
+        });
+
 
         function whenExtentChanges() {
             var queryIdsInView = new Query();

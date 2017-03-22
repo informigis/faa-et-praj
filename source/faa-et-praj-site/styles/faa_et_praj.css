@@ -29,7 +29,7 @@ body {
 
 #zoomToMunicipal {
     position: relative;
-    z-index: 1000;
+    z-index: 1;
     float: left;
     height: 34px;
     border-radius: 5px;
