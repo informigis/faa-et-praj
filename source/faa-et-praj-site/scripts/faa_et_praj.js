@@ -171,10 +171,7 @@
             document.getElementById("deletePraj").style.display = "block";
             document.getElementById("updatePraj").style.display = "block";
             document.getElementById("createPraj").style.display = "none";
-
-            //document.getElementById("featureTableContainer").style.display = "none";
-            //document.getElementById("showBorgerAbb").style.display = "none";
-            //document.getElementById("labelForShowBorgerAbb").style.display = "none";
+            document.getElementById("saveAtMap").style.display = "block";
             document.getElementById("borgerAbbSection").style.display = "block";
 
             document.getElementById("byggeri_og_bolig").checked = (QueryString.byggeri_og_bolig === "true");

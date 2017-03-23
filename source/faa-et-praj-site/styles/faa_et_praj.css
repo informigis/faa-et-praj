@@ -40,12 +40,8 @@ body {
     margin-right: 5px;
 }
 
-#deletePraj, #updatePraj, #objectId, #objectIdLabel, #globalId, #globalIdLabel {
+#deletePraj, #updatePraj, #objectId, #objectIdLabel, #globalId, #globalIdLabel, #saveAtMap {
     display: none;
-}
-
-#categories {
-    /*display: none;*/
 }
 
 form, input, label {
