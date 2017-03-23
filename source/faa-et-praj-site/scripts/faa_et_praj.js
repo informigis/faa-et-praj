@@ -366,5 +366,7 @@
         on(map, "extent-change", whenExtentChanges);
         var zoomToAll = dom.byId("zoomToMunicipal");
         on(zoomToAll, "click", viewAllOnMap);
+        var saveAtMap = dom.byId("saveAtMap");
+        on(saveAtMap, "click", updatePraj);
     });
 });

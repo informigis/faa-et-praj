@@ -32,7 +32,8 @@
     <div id="mapAndTableContainer">
         <section id="mapContainer">
             <div id="viewDiv"></div>
-            <button type="button" id="zoomToMunicipal">Se alle</button>
+            <button class="prajButton" type="button" id="zoomToMunicipal">Se alle</button>
+            <button class="prajButton" type="button" id="saveAtMap">Gem</button>
             <div id="search"></div>
         </section>
         <div id="featureTableContainer" class="claro esri" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline', gutters: false">
@@ -72,7 +73,7 @@
         <br />
         <p>Du kan altid afmelde hvert enkelt praj i den mail vi sender til dig.</p>
         <br />
-        <input type="button" value="Slet praj" id="deletePraj" />
+        <input class="prajButton" type="button" value="Slet praj" id="deletePraj" />
         <h2>Dine kontaktoplysninger</h2>
         <label for="name">Navn</label>
         <input type="text" value="" id="name" />
@@ -83,8 +84,8 @@
         <label for="phone">Mobilnummer</label>
         <input type="tel" value="" id="phone" />
         <br />
-        <input type="button" value="Tilmeld" id="createPraj" />
-        <input type="button" value="Gem ændringer" id="updatePraj" />
+        <input class="prajButton" type="button" value="Tilmeld" id="createPraj" />
+        <input class="prajButton" type="button" value="Gem ændringer" id="updatePraj" />
         <br />
         <label for="objectId" id="objectIdLabel">objectId</label>
         <input type="text" value="" id="objectId" />
