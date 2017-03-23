@@ -48,8 +48,8 @@
         var map = new Map("viewDiv", {
             basemap: "gray",
             container: "viewDiv",
-            zoom: 12,
-            center: [9.47, 55.5],
+            zoom: 10,
+            center: [9.46, 55.45],
             logo: false,
             showAttribution: false
         });
